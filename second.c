@@ -1272,7 +1272,7 @@ int main()
             if (t == 0)
             {
                 printf("you can't move\n");
-                continue;;
+                continue;
             }
             
             if(getnum1(array) == 0){
@@ -1296,7 +1296,7 @@ int main()
             if (t == 0)
             {
                 printf("you can't move\n");
-                break;
+                continue;
             }
             
             if(getnum2(array) == 0){
