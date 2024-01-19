@@ -1,4 +1,7 @@
 #include<stdio.h>
+#include<time.h>
+#include"mymenu.h"
+
 struct part
 {
     char character;
@@ -1240,7 +1243,8 @@ return 1;
 }
 
 
-
+int time1 = 10;
+int time2 = 10;
 
 
 
@@ -1251,14 +1255,19 @@ return 1;
 int main()
 {
     partition array[64];
-
+    int t = menu();
+    // printf("%d\n", t);
+    if (t == 3)
+    {
     scanf("%s",&member1.name);
     scanf("%s",&member2.name);
     member1.points = 0;
     member2.points = 0;
     firstvalues(array);
+    clock_t start, end;
     for (int i = 0; i < 30; i++)
     {
+        start = clock();
         int t = 0;
         if ((i%2) == 0)
         {
@@ -1279,6 +1288,15 @@ int main()
                 i--;
                 continue;
             } ;
+            end = clock();
+            int reduce = (end-start)/CLOCKS_PER_SEC;
+            time1 -= reduce;
+            if (time1<0)
+            {
+                printf("player one you lost the time\nplayer 2 won thegame");
+                break;
+            }
+
             printarray(array);
             printf("%s point is :%d\n",member1.name,member1.points);
             printf("%s point is :%d\n",member2.name,member2.points);
@@ -1302,13 +1320,178 @@ int main()
             if(getnum2(array) == 0){
                 i--;
                 continue;
-            } ;        
+            } ;    
+            end = clock();
+            int reduce = (end-start)/CLOCKS_PER_SEC;
+            time2 -= reduce;
+            if (time2<0)
+            {
+                printf("player two you lost the time\nplayer 1 won thegame");
+                break;
+            }    
             printarray(array);
             printf("%s point is :%d\n",member1.name,member1.points);
             printf("%s point is :%d\n",member2.name,member2.points);
         }
-        
+        // end = clock();
+        // int reduce = (end-start)/CLOCKS_PER_SEC;
+        if (i %2 == 0)
+        {
+        //     time1 -= reduce;
+        //     if (time1<0)
+        //     {
+        //         printf("player one you lost the time\nplayer 2 won thegame");
+        //         break;
+        //     }
+            
+            printf("time 1 = %d\n",time1);
+        }
+        if (i %2 == 1)
+        {
+        //     time2 -= reduce;
+        //     if (time2<0)
+        //     {
+        //         printf("player two you lost the time\nplayer 1 won thegame");
+        //         break;
+        //     }
+            printf("time 2 = %d\n",time2);
+        }
+
     }
+
     
+    }
+  
+  
+  
+  
+  
+  
+  
+  /*normal mode*/
+  
+  
+  
+    if (t == 2)
+    {
+            scanf("%s",&member1.name);
+    scanf("%s",&member2.name);
+    member1.points = 0;
+    member2.points = 0;
+    char arraySupport1[64];
+    char arraySupport2[64];
+    int pointSupporta1;
+    int pointSupporta2;
+    int pointSupportb1;
+    int pointSupportb2;
+    firstvalues(array);
+
+
+    for (int i = 0; i < 30; i++)
+    {
+        printarray(array);
+        printf("i = %d\n", i);
+        int t = 0;
+        if ((i%2) == 0)
+        {
+            for (int j = 0; j < 64; j++)
+            {
+                if(check(array, array[j].x,array[j].y)== 1){
+            //         printf("%s you can choose x = %d y = %d block\n",member1.name,array[j].x, array[j].y);
+                    t++;
+                };
+            }
+            if (t == 0)
+            {
+                printf("you can't move\n");
+                continue;
+            }
+            if (i>=2)
+            {
+                int x = 0;
+                printf("%s do youwant to go back?", member1.name);
+                scanf("%d", &x);
+                if (x==1)
+                {
+                    for (int i = 0; i < 64; i++)
+                    {
+                        array[i].character=arraySupport1[i];
+
+                    }
+                    member1.points = pointSupporta1;
+                    member2.points = pointSupporta2;
+                    i-=3;
+                    continue;
+                }
+                
+            }
+            for (int i = 0; i < 64; i++)
+            {
+                arraySupport1[i]=array[i].character;
+            }
+            pointSupporta1 = member1.points;
+            pointSupporta2 = member2.points;
+            if(getnum1(array) == 0){
+                i--;
+                continue;
+            } ;
+            
+
+            
+            // printarray(array);
+            printf("%s point is :%d\n",member1.name,member1.points);
+            printf("%s point is :%d\n",member2.name,member2.points);
+
+        }
+        if ((i%2) == 1)
+        {
+            for (int j = 0; j < 64; j++)
+            {
+                if(checkb(array, array[j].x,array[j].y)== 1){
+            //         printf("%s you can choose x = %d y = %d block\n",member2.name,array[j].x, array[j].y);
+                    t++;
+                };
+            }
+            if (t == 0)
+            {
+                printf("you can't move\n");
+                continue;
+            }
+            if (i>=2)
+            {
+                int x = 0;
+                printf("%s do youwant to go back?", member2.name);
+                scanf("%d", &x);
+                if (x==1)
+                {
+                    for (int i = 0; i < 64; i++)
+                    {
+                        array[i].character=arraySupport2[i];
+                        
+                    }
+                    member1.points = pointSupportb1;
+                    member2.points = pointSupportb2;
+                    i-=3;
+                    continue;
+                }
+                
+            }
+            for (int i = 0; i < 64; i++)
+            {
+                arraySupport2[i]=array[i].character;
+            }
+            pointSupportb1 = member1.points;
+            pointSupportb2 = member2.points;
+            if(getnum2(array) == 0){
+                i--;
+                continue;
+            } ;   
+
+            // printarray(array);
+            printf("%s point is :%d\n",member1.name,member1.points);
+            printf("%s point is :%d\n",member2.name,member2.points);
+        }
+    }
+    }
     return 0;
 }
