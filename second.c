@@ -1356,7 +1356,8 @@ int chooseWinner(partition array[])
 
 int time1 = 300;
 int time2 = 300;
-
+/// *********************************************************************
+/// *********************************************************************
 int main()
 {
     partition array[64];
@@ -1389,6 +1390,7 @@ int main()
         int extraTime2a;
         int extraTime2b;
         int extraTime2Counter = 0;
+        int extraTime2Countersu = 0;
         clock_t start, end;
         for (int i = 0; i < 64 + extraCounter; i++)
         {
@@ -1396,6 +1398,7 @@ int main()
             {
                 extraTime1Counter++;
                 extraTime1Countersu = 1;
+                turnBackCountera = -1; /*for avoiding to enter again in this if*/
             }
             if ((i == index1 + 1) && (extraTime1Counter == 1))
             {
@@ -1404,9 +1407,17 @@ int main()
                 extraTime1Counter = 0;
             }
 
-            if (i == index2)
+            if ((turnBackCounterb == 0) && (i == index2))
             {
-                // printf("mohammad has returned\n");
+                extraTime2Counter++;
+                extraTime2Countersu = 1;
+                turnBackCounterb = -1; /*for avoiding to enter again in this if*/
+            }
+            if ((i == index2 + 1) && (extraTime2Counter == 1))
+            {
+                extraTime2Counter++;
+                extraTime2Countersu = 1;
+                extraTime2Counter = 0;
             }
 
             printarray(array);
@@ -1499,6 +1510,15 @@ int main()
                                 scanf("%d", &x);
                                 if (x == 1)
                                 {
+                                    if (turnBackCounterb == 2)
+                                    {
+                                        time2 -= 30;
+                                    }
+                                    if (turnBackCounterb == 1)
+                                    {
+                                        time2 -= 60;
+                                    }
+
                                     for (int i = 0; i < 64; i++)
                                     {
                                         array[i].character = arraySupport2[i];
@@ -1542,8 +1562,15 @@ int main()
                 printf("player one reduce = %d\n");
                 if (extraTime1Countersu == 1)
                 {
+                    printf("%d added to time2", reduce);
                     time2 += reduce;
                     extraTime1Countersu = 0;
+                }
+                if (extraTime2Countersu == 1)
+                {
+                    printf("%d added to time1\n", reduce);
+                    time1 += reduce;
+                    extraTime2Countersu = 0;
                 }
 
                 if (time1 < 0)
@@ -1604,6 +1631,15 @@ int main()
 
                                 if (x == 1)
                                 {
+                                    if (turnBackCounterb == 2)
+                                    {
+                                        time2 -= 30;
+                                    }
+                                    if (turnBackCounterb == 1)
+                                    {
+                                        time2 -= 60;
+                                    }
+
                                     for (int i = 0; i < 64; i++)
                                     {
                                         array[i].character = arraySupport2[i];
@@ -1636,6 +1672,15 @@ int main()
 
                                 if (x == 1)
                                 {
+                                    if (turnBackCountera == 2)
+                                    {
+                                        time1 -= 30;
+                                    }
+                                    if (turnBackCountera == 1)
+                                    {
+                                        time1 -= 60;
+                                    }
+
                                     for (int i = 0; i < 64; i++)
                                     {
                                         array[i].character = arraySupport1[i];
@@ -1674,8 +1719,15 @@ int main()
                 printf("player two reduce = %d\n");
                 if (extraTime1Countersu == 1)
                 {
+                    printf("%d added to time2", reduce);
                     time2 += reduce;
                     extraTime1Countersu = 0;
+                }
+                if (extraTime2Countersu == 1)
+                {
+                    printf("%d added to time1", reduce);
+                    time1 += reduce;
+                    extraTime2Countersu = 0;
                 }
 
                 if (time2 < 0)
@@ -1689,27 +1741,28 @@ int main()
             }
             // end = clock();
             // int reduce = (end-start)/CLOCKS_PER_SEC;
-            if (i % 2 == 0)
-            {
-                //     time1 -= reduce;
-                //     if (time1<0)
-                //     {
-                //         printf("player one you lost the time\nplayer 2 won thegame");
-                //         break;
-                //     }
+            // if (i % 2 == 0)
+            // {
+            //     //     time1 -= reduce;
+            //     //     if (time1<0)
+            //     //     {
+            //     //         printf("player one you lost the time\nplayer 2 won thegame");
+            //     //         break;
+            //     //     }
 
-                printf("time 1 = %d\n", time1);
-            }
-            if (i % 2 == 1)
-            {
-                //     time2 -= reduce;
-                //     if (time2<0)
-                //     {
-                //         printf("player two you lost the time\nplayer 1 won thegame");
-                //         break;
-                //     }
-                printf("time 2 = %d\n", time2);
-            }
+            //     printf("time 1 = %d\n", time1);
+            // }
+            // if (i % 2 == 1)
+            // {
+            //     //     time2 -= reduce;
+            //     //     if (time2<0)
+            //     //     {
+            //     //         printf("player two you lost the time\nplayer 1 won thegame");
+            //     //         break;
+            //     //     }
+            //     printf("time 2 = %d\n", time2);
+            // }
+            printf("time 1 = %d and time 2 = %d\n", time1, time2);
         }
     }
 
