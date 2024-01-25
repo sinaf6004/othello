@@ -3,6 +3,7 @@
 #include "mymenu.h"
 #include <stdlib.h>
 #include <string.h>
+#include <conio.h>
 
 struct part
 {
@@ -17,18 +18,30 @@ struct Members
     int points;
 };
 typedef struct Members members;
+struct saveFile
+{
+    char member1[10];
+    char member2[10];
+    char array[64];
+    int turn;
+    int time1;
+    int time2;
+    int point1;
+    int point2;
+};
+typedef struct saveFile saveFile;
 members member1;
 members member2;
 void firstvalues(partition array[])
 {
-    for (int i = 0; i < 64; i++)
-    {
-        (array[i]).character = ' ';
-    }
-    array[27].character = 'O';
-    array[36].character = 'O';
-    array[35].character = '#';
-    array[28].character = '#';
+    // for (int i = 0; i < 64; i++)
+    // {
+    //     (array[i]).character = ' ';
+    // }
+    // array[27].character = 'O';
+    // array[36].character = 'O';
+    // array[35].character = '#';
+    // array[28].character = '#';
     int a = 0;
     for (int i = 1; i < 9; i++)
     {
@@ -1363,12 +1376,27 @@ int main()
     partition array[64];
     int t = menu();
     // printf("%d\n", t);
+    FILE *filePointer;
+    saveFile save;
+    filePointer = fopen("sinaali.txt", "r");
+    fread(&save, sizeof(save), 1, filePointer);
+    fclose(filePointer);
+    int startI= save.turn+1;
+    member1.points = save.point1;
+    member2.points = save.point2;
+    for (int i = 0; i < 64; i++)
+    {
+        array[i].character = save.array[i];
+    }
+    time1 = save.time1;
+    time2 = save.time2;
+    
     if (t == 3)
     {
         scanf("%s", &member1.name);
         scanf("%s", &member2.name);
-        member1.points = 0;
-        member2.points = 0;
+        // member1.points = 0;
+        // member2.points = 0;
         char arraySupport1[64];
         char arraySupport2[64];
         int pointSupporta1;
@@ -1392,7 +1420,7 @@ int main()
         int extraTime2Counter = 0;
         int extraTime2Countersu = 0;
         clock_t start, end;
-        for (int i = 0; i < 64 + extraCounter; i++)
+        for (int i = startI; i < 64 + extraCounter; i++)
         {
             if ((turnBackCountera == 0) && (i == index1))
             {
@@ -1735,6 +1763,32 @@ int main()
                     printf("player two you lost the time\nplayer 1 won thegame");
                     break;
                 }
+                printf("do you want to save the game and quit?(yes = 1/no = 0)\n");
+                int saveCheck;
+                scanf("%d", &saveCheck);
+                if (saveCheck == 1)
+                {
+                    char holdFileName[50];
+                    strcpy(holdFileName, member1.name);
+                    strcat(holdFileName, member2.name);
+                    strcat(holdFileName, ".txt");
+
+                    for (int i = 0; i < 64; i++)
+                    {
+                        save.array[i] = array[i].character;
+                    }
+                    strcpy(save.member1, member1.name);
+                    strcpy(save.member2, member2.name);
+                    save.time1 = time1;
+                    save.time2 = time2;
+                    save.turn = i;
+                    save.point1 = member1.points;
+                    save.point2 = member2.points;
+                    filePointer = fopen(holdFileName, "w");
+                    fwrite(&save, sizeof(save), 1, filePointer);
+                    fclose(filePointer);
+                }
+
                 // printarray(array);
                 // printf("%s point is :%d\n", member1.name, member1.points);
                 // printf("%s point is :%d\n", member2.name, member2.points);
