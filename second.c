@@ -28,11 +28,34 @@ struct saveFile
     int time2;
     int point1;
     int point2;
+
+    char arraySupport1[64];
+    char arraySupport2[64];
+    int pointSupporta1;
+    int pointSupporta2;
+    int pointSupportb1;
+    int pointSupportb2;
+
+    int turnBackCountera;
+    int turnBackCounterb;
+    int index1;
+    int index2;
+    int counter;
+    int x23;
+    int extraCounter;
+    int extraTime1a;
+    int extraTime1b;
+    int extraTime1Counter;
+    int extraTime1Countersu;
+    int extraTime2a;
+    int extraTime2b;
+    int extraTime2Counter;
+    int extraTime2Countersu;
 };
 typedef struct saveFile saveFile;
 members member1;
 members member2;
-void firstvalues(partition array[])
+void firstvaluesSave(partition array[])
 {
     // for (int i = 0; i < 64; i++)
     // {
@@ -53,6 +76,28 @@ void firstvalues(partition array[])
         }
     }
 }
+void firstvaluesNotSave(partition array[])
+{
+    for (int i = 0; i < 64; i++)
+    {
+        (array[i]).character = ' ';
+    }
+    array[27].character = 'O';
+    array[36].character = 'O';
+    array[35].character = '#';
+    array[28].character = '#';
+    int a = 0;
+    for (int i = 1; i < 9; i++)
+    {
+        for (int j = 1; j < 9; j++)
+        {
+            array[a].x = i;
+            array[a].y = j;
+            a++;
+        }
+    }
+}
+
 void printPointsa()
 {
     printf("%s point is :\x1b[36m%d", member1.name, member1.points);
@@ -1376,34 +1421,29 @@ int main()
     partition array[64];
     int t = menu();
     // printf("%d\n", t);
-    FILE *filePointer;
-    saveFile save;
-    filePointer = fopen("sinaali.txt", "r");
-    fread(&save, sizeof(save), 1, filePointer);
-    fclose(filePointer);
-    int startI= save.turn+1;
-    member1.points = save.point1;
-    member2.points = save.point2;
-    for (int i = 0; i < 64; i++)
-    {
-        array[i].character = save.array[i];
-    }
-    time1 = save.time1;
-    time2 = save.time2;
-    
+
     if (t == 3)
     {
         scanf("%s", &member1.name);
         scanf("%s", &member2.name);
-        // member1.points = 0;
-        // member2.points = 0;
+        char holdFileName[50];
+        char holdIsIt1[50];
+        char holdIsIt2[50];
+        strcpy(holdFileName, member1.name);
+        strcat(holdFileName, member2.name);
+        strcat(holdFileName, ".txt");
+        FILE *filePointer;
+        saveFile save;
+        filePointer = fopen(holdFileName, "r");
+        fread(&save, sizeof(save), 1, filePointer);
+        fclose(filePointer);
         char arraySupport1[64];
         char arraySupport2[64];
         int pointSupporta1;
         int pointSupporta2;
         int pointSupportb1;
         int pointSupportb2;
-        firstvalues(array);
+
         int turnBackCountera = 2;
         int turnBackCounterb = 2;
         int index1 = 0;
@@ -1419,6 +1459,63 @@ int main()
         int extraTime2b;
         int extraTime2Counter = 0;
         int extraTime2Countersu = 0;
+        strcpy(holdIsIt1, member1.name);
+        strcat(holdIsIt1, member2.name);
+        strcpy(holdIsIt2, save.member1);
+        strcat(holdIsIt2, save.member2);
+        int startI;
+        printf("hold is it 1 = %s\n", holdIsIt1);
+        printf("hold is it 2 = %s\n", holdIsIt2);
+        if (strcmp(holdIsIt1, holdIsIt2) == 0)
+        {
+            startI = save.turn + 1;
+            member1.points = save.point1;
+            member2.points = save.point2;
+            for (int i = 0; i < 64; i++)
+            {
+                array[i].character = save.array[i];
+            }
+            time1 = save.time1;
+            time2 = save.time2;
+            firstvaluesSave(array);
+            for (int i = 0; i < 64; i++)
+            {
+                arraySupport1[i] = save.arraySupport1[i];
+            }
+            for (int i = 0; i < 64; i++)
+            {
+                arraySupport2[i] = save.arraySupport2[i];
+            }
+
+            pointSupporta1 = save.pointSupporta1;
+            pointSupporta2 = save.pointSupporta2;
+            pointSupportb1 = save.pointSupportb1;
+            pointSupportb2 = save.pointSupportb2;
+            turnBackCountera = save.turnBackCountera;
+            turnBackCounterb = save.turnBackCounterb;
+            index1 = save.index1;
+            index2 = save.index2;
+            counter = save.counter;
+            x23 = save.x23;
+            extraCounter = save.extraCounter;
+            extraTime1a = save.extraTime1a;
+            extraTime1b = save.extraTime1b;
+            extraTime1Counter = save.extraTime1Counter;
+            extraTime1Countersu = save.extraTime1Countersu;
+            extraTime2a = save.extraTime2a;
+            extraTime2b = save.extraTime2b;
+            extraTime2Counter = save.extraTime2Counter;
+            extraTime2Countersu = save.extraTime2Countersu;
+        }
+        else
+        {
+            member1.points = 0;
+            member2.points = 0;
+            firstvaluesNotSave(array);
+            startI = 0;
+        }
+        // for turning back
+
         clock_t start, end;
         for (int i = startI; i < 64 + extraCounter; i++)
         {
@@ -1763,35 +1860,64 @@ int main()
                     printf("player two you lost the time\nplayer 1 won thegame");
                     break;
                 }
-                printf("do you want to save the game and quit?(yes = 1/no = 0)\n");
-                int saveCheck;
-                scanf("%d", &saveCheck);
-                if (saveCheck == 1)
-                {
-                    char holdFileName[50];
-                    strcpy(holdFileName, member1.name);
-                    strcat(holdFileName, member2.name);
-                    strcat(holdFileName, ".txt");
-
-                    for (int i = 0; i < 64; i++)
-                    {
-                        save.array[i] = array[i].character;
-                    }
-                    strcpy(save.member1, member1.name);
-                    strcpy(save.member2, member2.name);
-                    save.time1 = time1;
-                    save.time2 = time2;
-                    save.turn = i;
-                    save.point1 = member1.points;
-                    save.point2 = member2.points;
-                    filePointer = fopen(holdFileName, "w");
-                    fwrite(&save, sizeof(save), 1, filePointer);
-                    fclose(filePointer);
-                }
 
                 // printarray(array);
                 // printf("%s point is :%d\n", member1.name, member1.points);
                 // printf("%s point is :%d\n", member2.name, member2.points);
+            }
+            printf("do you want to save the game and quit?(yes = 1/no = 0)\n");
+            int saveCheck;
+            scanf("%d", &saveCheck);
+            if (saveCheck == 1)
+            {
+                char holdFileName[50];
+                strcpy(holdFileName, member1.name);
+                strcat(holdFileName, member2.name);
+                strcat(holdFileName, ".txt");
+
+                for (int i = 0; i < 64; i++)
+                {
+                    save.array[i] = array[i].character;
+                }
+                strcpy(save.member1, member1.name);
+                strcpy(save.member2, member2.name);
+                save.time1 = time1;
+                save.time2 = time2;
+                save.turn = i;
+                save.point1 = member1.points;
+                save.point2 = member2.points;
+                for (int i = 0; i < 64; i++)
+                {
+                    save.arraySupport1[i] = arraySupport1[i];
+                }
+                for (int i = 0; i < 64; i++)
+                {
+                    save.arraySupport2[i] = arraySupport2[i];
+                }
+                save.pointSupporta1 = pointSupporta1;
+                save.pointSupporta2 = pointSupporta2;
+                save.pointSupportb1 = pointSupportb1;
+                save.pointSupportb2 = pointSupportb2;
+                save.turnBackCountera = turnBackCountera;
+                save.turnBackCounterb = turnBackCounterb;
+                save.index1 = index1;
+                save.index2 = index2;
+                save.counter = counter;
+                save.x23 = x23;
+                save.extraCounter = extraCounter;
+                save.extraTime1a = extraTime1a;
+                save.extraTime1b = extraTime1b;
+                save.extraTime1Counter = extraTime1Counter;
+                save.extraTime1Countersu = extraTime1Countersu;
+                save.extraTime2a = extraTime2a;
+                save.extraTime2b = extraTime2b;
+                save.extraTime2Counter = extraTime2Counter;
+                save.extraTime2Countersu = extraTime2Countersu;
+                
+                
+                filePointer = fopen(holdFileName, "w");
+                fwrite(&save, sizeof(save), 1, filePointer);
+                fclose(filePointer);
             }
             // end = clock();
             // int reduce = (end-start)/CLOCKS_PER_SEC;
