@@ -97,17 +97,29 @@ void firstvaluesNotSave(partition array[])
         }
     }
 }
-
+int time1 = 600;
+int time2 = 600;
+void printTime1()
+{
+    printf("\x1b[32m%s \x1b[0mremaining time is \x1b[33m%d \x1b[0mseconds", member1.name, time1);
+    printf("\x1b[0m");
+}
+void printTime2()
+{
+    printf("\x1b[32m%s \x1b[0mremaining time is \x1b[33m%d \x1b[0mseconds", member2.name, time2);
+    printf("\x1b[0m");
+}
 void printPointsa()
 {
-    printf("%s point is :\x1b[36m%d", member1.name, member1.points);
+    printf("\x1b[32m%s \x1b[0mpoint is :\x1b[36m%d", member1.name, member1.points);
     printf("\x1b[0m");
 }
 void printPointsb()
 {
-    printf("%s point is :\x1b[36m%d", member2.name, member2.points);
+    printf("\x1b[32m%s \x1b[0mpoint is :\x1b[36m%d", member2.name, member2.points);
     printf("\x1b[0m");
 }
+
 void printarray(partition array[])
 {
     int a = 0;
@@ -143,6 +155,10 @@ void printarray(partition array[])
         if (j == 4)
         {
             printPointsb();
+        }
+        if (j == 2)
+        {
+            printTime2();
         }
 
         printf("\n");
@@ -185,6 +201,15 @@ void printarray(partition array[])
                 printf(" ");
             }
             printPointsa();
+        }
+
+        if (j == 2)
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                printf(" ");
+            }
+            printTime1();
         }
 
         printf("\n");
@@ -1482,16 +1507,18 @@ int decodingNumber(int x)
     return y;
 }
 
-int time1 = 600;
-int time2 = 600;
 /// *********************************************************************
 /// *********************************************************************
 int main()
 {
     partition array[64];
     int t = menu();
-    // printf("%d\n", t);
-
+    if (t == 1)
+    {
+        /* code */
+    }
+    
+    
     if (t == 3)
     {
         scanf("%s", &member1.name);
@@ -1546,47 +1573,51 @@ int main()
         printf("hold is it 2 = %s\n", holdIsIt2);
         if (strcmp(holdIsIt1, holdIsIt2) == 0)
         {
-            startI = save.turn + 1;
-            member1.points = save.point1;
-            member2.points = save.point2;
+            // decoding
+            startI = decodingNumber(save.turn) + 1;
+            member1.points = decodingNumber(save.point1);
+            member2.points = decodingNumber(save.point2);
             decodingChar(save.array, mainArrayDecoding);
             decodingChar(save.arraySupport1, arraySupport1Decoding);
-            decodingChar(arraySupport2, arraySupport2Decoding);
+            decodingChar(save.arraySupport2, arraySupport2Decoding);
             for (int i = 0; i < 64; i++)
             {
                 array[i].character = mainArrayDecoding[i];
             }
-            time1 = save.time1;
-            time2 = save.time2;
+            time1 = (save.time1);
+            time2 = (save.time2);
             firstvaluesSave(array);
             for (int i = 0; i < 64; i++)
             {
                 arraySupport1[i] = arraySupport1Decoding[i];
-            }
+                printf("%c", arraySupport1Decoding[i]);
+            }                printf("\n");
             for (int i = 0; i < 64; i++)
             {
                 arraySupport2[i] = arraySupport2Decoding[i];
-            }
+                printf("%c", arraySupport2Decoding[i]);
 
-            pointSupporta1 = save.pointSupporta1;
-            pointSupporta2 = save.pointSupporta2;
-            pointSupportb1 = save.pointSupportb1;
-            pointSupportb2 = save.pointSupportb2;
-            turnBackCountera = save.turnBackCountera;
-            turnBackCounterb = save.turnBackCounterb;
-            index1 = save.index1;
-            index2 = save.index2;
-            counter = save.counter;
-            x23 = save.x23;
-            extraCounter = save.extraCounter;
-            extraTime1a = save.extraTime1a;
-            extraTime1b = save.extraTime1b;
-            extraTime1Counter = save.extraTime1Counter;
-            extraTime1Countersu = save.extraTime1Countersu;
-            extraTime2a = save.extraTime2a;
-            extraTime2b = save.extraTime2b;
-            extraTime2Counter = save.extraTime2Counter;
-            extraTime2Countersu = save.extraTime2Countersu;
+            }                printf("\n");
+
+            pointSupporta1 = decodingNumber(save.pointSupporta1);
+            pointSupporta2 = decodingNumber(save.pointSupporta2);
+            pointSupportb1 = decodingNumber(save.pointSupportb1);
+            pointSupportb2 = decodingNumber(save.pointSupportb2);
+            turnBackCountera = decodingNumber(save.turnBackCountera);
+            turnBackCounterb = decodingNumber(save.turnBackCounterb);
+            index1 = decodingNumber(save.index1);
+            index2 = decodingNumber(save.index2);
+            counter = decodingNumber(save.counter);
+            x23 = decodingNumber(save.x23);
+            extraCounter = decodingNumber(save.extraCounter);
+            extraTime1a = decodingNumber(save.extraTime1a);
+            extraTime1b = decodingNumber(save.extraTime1b);
+            extraTime1Counter = decodingNumber(save.extraTime1Counter);
+            extraTime1Countersu = decodingNumber(save.extraTime1Countersu);
+            extraTime2a = decodingNumber(save.extraTime2a);
+            extraTime2b = decodingNumber(save.extraTime2b);
+            extraTime2Counter = decodingNumber(save.extraTime2Counter);
+            extraTime2Countersu = decodingNumber(save.extraTime2Countersu);
         }
         else
         {
@@ -1703,7 +1734,7 @@ int main()
                         }
                     }
                 }
-                if (i >= 4)
+                if (i >= 2)
                 {
                     if (counter == 1)
                     {
@@ -1820,7 +1851,7 @@ int main()
 
                     continue;
                 }
-                if (i >= 3)
+                if (i >= 2)
                 {
                     if (counter == 1)
                     {
@@ -1951,6 +1982,11 @@ int main()
             scanf("%d", &saveCheck);
             if (saveCheck == 1)
             {
+                for (int i = 0; i < 64; i++)
+                {
+                    printf("%c", arraySupport2[i]);
+                } printf("\n");
+                
                 char holdFileName[50];
                 strcpy(holdFileName, member1.name);
                 strcat(holdFileName, member2.name);
@@ -1961,7 +1997,7 @@ int main()
                 {
                     mainArrayCharacter[i] = array[i].character;
                 }
-                printf("fuu");
+                // printf("fuu");
 
                 // coding the informations
                 codingChar(mainArrayCharacter, mainArrayCoding);
@@ -1972,40 +2008,42 @@ int main()
                 {
                     save.array[i] = mainArrayCoding[i];
                 }
-                strcpy(save.member1, member1.name);
-                strcpy(save.member2, member2.name);
-                save.time1 = time1;
-                save.time2 = time2;
-                save.turn = i;
-                save.point1 = member1.points;
-                save.point2 = member2.points;
+                strcpy(save.member1, (member1.name));
+                strcpy(save.member2, (member2.name));
+                save.time1 = (time1);
+                save.time2 = (time2);
+                save.turn = codingNumber(i);
+                save.point1 = codingNumber(member1.points);
+                save.point2 = codingNumber(member2.points);
                 for (int i = 0; i < 64; i++)
                 {
                     save.arraySupport1[i] = arraySupport1Coding[i];
+
                 }
                 for (int i = 0; i < 64; i++)
                 {
                     save.arraySupport2[i] = arraySupport2Coding[i];
-                }
-                save.pointSupporta1 = pointSupporta1;
-                save.pointSupporta2 = pointSupporta2;
-                save.pointSupportb1 = pointSupportb1;
-                save.pointSupportb2 = pointSupportb2;
-                save.turnBackCountera = turnBackCountera;
-                save.turnBackCounterb = turnBackCounterb;
-                save.index1 = index1;
-                save.index2 = index2;
-                save.counter = counter;
-                save.x23 = x23;
-                save.extraCounter = extraCounter;
-                save.extraTime1a = extraTime1a;
-                save.extraTime1b = extraTime1b;
-                save.extraTime1Counter = extraTime1Counter;
-                save.extraTime1Countersu = extraTime1Countersu;
-                save.extraTime2a = extraTime2a;
-                save.extraTime2b = extraTime2b;
-                save.extraTime2Counter = extraTime2Counter;
-                save.extraTime2Countersu = extraTime2Countersu;
+                    printf("%c", arraySupport2[i]);
+                }printf("\n");
+                save.pointSupporta1 = codingNumber(pointSupporta1);
+                save.pointSupporta2 = codingNumber(pointSupporta2);
+                save.pointSupportb1 = codingNumber(pointSupportb1);
+                save.pointSupportb2 = codingNumber(pointSupportb2);
+                save.turnBackCountera = codingNumber(turnBackCountera);
+                save.turnBackCounterb = codingNumber(turnBackCounterb);
+                save.index1 = codingNumber(index1);
+                save.index2 = codingNumber(index2);
+                save.counter = codingNumber(counter);
+                save.x23 = codingNumber(x23);
+                save.extraCounter = codingNumber(extraCounter);
+                save.extraTime1a = codingNumber(extraTime1a);
+                save.extraTime1b = codingNumber(extraTime1b);
+                save.extraTime1Counter = codingNumber(extraTime1Counter);
+                save.extraTime1Countersu = codingNumber(extraTime1Countersu);
+                save.extraTime2a = codingNumber(extraTime2a);
+                save.extraTime2b = codingNumber(extraTime2b);
+                save.extraTime2Counter = codingNumber(extraTime2Counter);
+                save.extraTime2Countersu = codingNumber(extraTime2Countersu);
 
                 filePointer = fopen(holdFileName, "w");
                 fwrite(&save, sizeof(save), 1, filePointer);
