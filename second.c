@@ -1332,7 +1332,23 @@ int getnum1(partition array[])
     int n;
     int t = member1.points;
     // scanf("%d%d",&x,&y);
-    scanf("%d%d", &x, &y);
+
+    do
+    {
+        scanf("%d%d", &x, &y);
+        printf("%d and %d\n", x, y);
+        if ((x > 0) && (x <= 8) && (y <= 8) && (y > 0))
+        {
+            break;
+        }
+        else
+        {
+            printf("invalid number !!!\n");
+            continue;
+        }
+
+    } while (1);
+
     // printf("x =%d--y =%d\n",x,y);
     n = ((x - 1) * 8) + y - 1;
     // printf("2\n");
@@ -1363,8 +1379,19 @@ int getnum2(partition array[])
     int y;
     int n;
     int t = member2.points;
-    // scanf("%d%d",&x,&y);
-    scanf("%d%d", &x, &y);
+    do
+    {
+        scanf("%d%d", &x, &y);
+        if ((x <= 8) && (y <= 8))
+        {
+            break;
+        }
+        else
+        {
+            printf("invalid number !!!\n");
+        }
+
+    } while ((x > 8) && (y > 8));
     // printf("x =%d--y =%d\n",x,y);
     n = ((x - 1) * 8) + y - 1;
     printf("2\n");
@@ -1411,9 +1438,52 @@ int chooseWinner(partition array[])
         return 2;
     }
 }
+void codingChar(char array1[], char array2[])
+{
+    int i;
+    for (i = 0; i < 64; i++)
+    {
+        array2[i] = (array1[i] * 3 + 5) % 128;
+    }
+}
+void decodingChar(char array1[], char array2[])
+{
+    int i;
+    for (i = 0; i < 64; i++)
+    {
+        array1[i] -= 5;
+        int hold = array1[i];
+        while (hold % 3 != 0)
+        {
+            hold += 128;
+        }
 
-int time1 = 300;
-int time2 = 300;
+        array2[i] = hold / 3;
+    }
+}
+int codingNumber(int x)
+{
+    int y;
+    y = (x * 3 + 5) % 128;
+    return y;
+}
+int decodingNumber(int x)
+{
+    int y;
+    int i;
+    x -= 5;
+    int hold = x;
+    while (hold % 3 != 0)
+    {
+        hold += 128;
+    }
+
+    y = hold / 3;
+    return y;
+}
+
+int time1 = 600;
+int time2 = 600;
 /// *********************************************************************
 /// *********************************************************************
 int main()
@@ -1427,8 +1497,10 @@ int main()
         scanf("%s", &member1.name);
         scanf("%s", &member2.name);
         char holdFileName[50];
+        // forchecking the past games
         char holdIsIt1[50];
         char holdIsIt2[50];
+        /////////////////////
         strcpy(holdFileName, member1.name);
         strcat(holdFileName, member2.name);
         strcat(holdFileName, ".txt");
@@ -1443,7 +1515,6 @@ int main()
         int pointSupporta2;
         int pointSupportb1;
         int pointSupportb2;
-
         int turnBackCountera = 2;
         int turnBackCounterb = 2;
         int index1 = 0;
@@ -1464,6 +1535,13 @@ int main()
         strcpy(holdIsIt2, save.member1);
         strcat(holdIsIt2, save.member2);
         int startI;
+        // values for coding and decoding
+        char mainArrayCoding[64];
+        char arraySupport1Coding[64];
+        char arraySupport2Coding[64];
+        char mainArrayDecoding[64];
+        char arraySupport1Decoding[64];
+        char arraySupport2Decoding[64];
         printf("hold is it 1 = %s\n", holdIsIt1);
         printf("hold is it 2 = %s\n", holdIsIt2);
         if (strcmp(holdIsIt1, holdIsIt2) == 0)
@@ -1471,20 +1549,23 @@ int main()
             startI = save.turn + 1;
             member1.points = save.point1;
             member2.points = save.point2;
+            decodingChar(save.array, mainArrayDecoding);
+            decodingChar(save.arraySupport1, arraySupport1Decoding);
+            decodingChar(arraySupport2, arraySupport2Decoding);
             for (int i = 0; i < 64; i++)
             {
-                array[i].character = save.array[i];
+                array[i].character = mainArrayDecoding[i];
             }
             time1 = save.time1;
             time2 = save.time2;
             firstvaluesSave(array);
             for (int i = 0; i < 64; i++)
             {
-                arraySupport1[i] = save.arraySupport1[i];
+                arraySupport1[i] = arraySupport1Decoding[i];
             }
             for (int i = 0; i < 64; i++)
             {
-                arraySupport2[i] = save.arraySupport2[i];
+                arraySupport2[i] = arraySupport2Decoding[i];
             }
 
             pointSupporta1 = save.pointSupporta1;
@@ -1613,7 +1694,7 @@ int main()
                                     member1.points = pointSupporta1;
                                     member2.points = pointSupporta2;
                                     // tIsupport = i - 2;
-                                    i -= 3;
+                                    i = index1 - 1;
                                     turnBackCountera--;
                                     counter = 0;
                                     continue;
@@ -1650,7 +1731,7 @@ int main()
                                     }
                                     member1.points = pointSupportb1;
                                     member2.points = pointSupportb2;
-                                    i -= 2;
+                                    i = index2 - 1;
                                     turnBackCounterb--;
                                     counter = 0;
                                     continue;
@@ -1700,7 +1781,7 @@ int main()
 
                 if (time1 < 0)
                 {
-                    printf("player one you lost the time\nplayer 2 won thegame");
+                    printf("player one you lost the time\nplayer 2 won the game");
                     break;
                 }
 
@@ -1772,7 +1853,7 @@ int main()
                                     member1.points = pointSupportb1;
                                     member2.points = pointSupportb2;
                                     // oISupport = i - 2;
-                                    i -= 3;
+                                    i = index2 - 1;
                                     turnBackCounterb--;
                                     counter = 0;
                                     continue;
@@ -1812,7 +1893,7 @@ int main()
                                     }
                                     member1.points = pointSupporta1;
                                     member2.points = pointSupporta2;
-                                    i -= 2;
+                                    i = index1 - 1;
                                     turnBackCountera--;
                                     counter = 0;
                                     continue;
@@ -1874,10 +1955,22 @@ int main()
                 strcpy(holdFileName, member1.name);
                 strcat(holdFileName, member2.name);
                 strcat(holdFileName, ".txt");
+                printf("%s\n", holdFileName);
+                char mainArrayCharacter[64];
+                for (int i = 0; i < 64; i++)
+                {
+                    mainArrayCharacter[i] = array[i].character;
+                }
+                printf("fuu");
+
+                // coding the informations
+                codingChar(mainArrayCharacter, mainArrayCoding);
+                codingChar(arraySupport1, arraySupport1Coding);
+                codingChar(arraySupport2, arraySupport2Coding);
 
                 for (int i = 0; i < 64; i++)
                 {
-                    save.array[i] = array[i].character;
+                    save.array[i] = mainArrayCoding[i];
                 }
                 strcpy(save.member1, member1.name);
                 strcpy(save.member2, member2.name);
@@ -1888,11 +1981,11 @@ int main()
                 save.point2 = member2.points;
                 for (int i = 0; i < 64; i++)
                 {
-                    save.arraySupport1[i] = arraySupport1[i];
+                    save.arraySupport1[i] = arraySupport1Coding[i];
                 }
                 for (int i = 0; i < 64; i++)
                 {
-                    save.arraySupport2[i] = arraySupport2[i];
+                    save.arraySupport2[i] = arraySupport2Coding[i];
                 }
                 save.pointSupporta1 = pointSupporta1;
                 save.pointSupporta2 = pointSupporta2;
@@ -1913,8 +2006,7 @@ int main()
                 save.extraTime2b = extraTime2b;
                 save.extraTime2Counter = extraTime2Counter;
                 save.extraTime2Countersu = extraTime2Countersu;
-                
-                
+
                 filePointer = fopen(holdFileName, "w");
                 fwrite(&save, sizeof(save), 1, filePointer);
                 fclose(filePointer);
@@ -1944,310 +2036,318 @@ int main()
             // }
             printf("time 1 = %d and time 2 = %d\n", time1, time2);
         }
+        if (chooseWinner(array) == 1)
+        {
+            printf("%s won the game", member1.name);
+        }
+        if (chooseWinner(array) == 2)
+        {
+            printf("%s won the game", member2.name);
+        }
     }
 
     /*normal mode*/
 
-    //     if (t == 2)
+    // if (t == 2)
+    // {
+    //     scanf("%s", &member1.name);
+    //     scanf("%s", &member2.name);
+    //     FILE *fp;
+    //     char hold1[50];
+    //     char hold2[50];
+    //     for (int i = 0; i < 50; i++)
     //     {
-    //         scanf("%s", &member1.name);
-    //         scanf("%s", &member2.name);
-    //         FILE *fp;
-    //         char hold1[50];
-    //         char hold2[50];
-    //         for (int i = 0; i < 50; i++)
+    //         hold1[i] = member1.name[i];
+    //     }
+    //     strcat(hold1, ".txt");
+    //     fp = fopen(hold1, "r");
+    //     fscanf(fp, "%d", &member1.points);
+    //     fclose(fp);
+
+    //     for (int i = 0; i < 50; i++)
+    //     {
+    //         hold2[i] = member2.name[i];
+    //     }
+    //     strcat(hold2, ".txt");
+    //     fp = fopen(hold2, "r");
+    //     fscanf(fp, "%d", &member2.points);
+    //     fclose(fp);
+    //     printf("%d----%d\n", member1.points, member2.points);
+
+    //     member1.points = 0;
+    //     member2.points = 0;
+    //     char arraySupport1[64];
+    //     char arraySupport2[64];
+    //     int pointSupporta1;
+    //     int pointSupporta2;
+    //     int pointSupportb1;
+    //     int pointSupportb2;
+    //     firstvalues(array);
+    //     int turnBackCountera = 2;
+    //     int turnBackCounterb = 2;
+    //     int index1 = 0;
+    //     int index2 = 0;
+    //     int counter = 0;
+    //     int x23;
+    //     int extraCounter = 0;
+    //     for (int i = 0; i < 64 + extraCounter; i++)
+    //     {
+    //         printarray(array);
+    //         printf("i = %d\n", i);
+    //         int t = 0;
+    //         /*#turn*/
+    //         printf("do you wanna qiut and save?");
+
+    //         scanf("%d", &x23);
+    //         if (x23 == 1)
     //         {
-    //             hold1[i] = member1.name[i];
+    //             fp = fopen(hold1, "w");
+    //             fprintf(fp, "%d", member1.points);
+    //             fclose(fp);
+    //             fp = fopen(hold2, "w");
+    //             fprintf(fp, "%d", member2.points);
+    //             fclose(fp);
+    //             printf("%s", "goodbye");
+    //             break;
     //         }
-    //         strcat(hold1, ".txt");
-    //         fp = fopen(hold1, "r");
-    //         fscanf(fp, "%d", &member1.points);
-    //         fclose(fp);
 
-    //         for (int i = 0; i < 50; i++)
+    //         if ((i % 2) == 0)
     //         {
-    //             hold2[i] = member2.name[i];
-    //         }
-    //         strcat(hold2, ".txt");
-    //         fp = fopen(hold2, "r");
-    //         fscanf(fp, "%d", &member2.points);
-    //         fclose(fp);
-    //         printf("%d----%d\n", member1.points, member2.points);
-
-    //         member1.points = 0;
-    //         member2.points = 0;
-    //         char arraySupport1[64];
-    //         char arraySupport2[64];
-    //         int pointSupporta1;
-    //         int pointSupporta2;
-    //         int pointSupportb1;
-    //         int pointSupportb2;
-    //         firstvalues(array);
-    //         int turnBackCountera = 2;
-    //         int turnBackCounterb = 2;
-    //         int index1 = 0;
-    //         int index2 = 0;
-    //         int counter = 0;
-    //         int x23;
-    //         int extraCounter = 0;
-    //         for (int i = 0; i < 64 + extraCounter; i++)
-    //         {
-    //             printarray(array);
-    //             printf("i = %d\n", i);
-    //             int t = 0;
-    //             /*#turn*/
-    //             printf("do you wanna qiut and save?");
-
-    //             scanf("%d", &x23);
-    //             if (x23 == 1)
+    //             for (int j = 0; j < 64; j++)
     //             {
-    //                 fp = fopen(hold1, "w");
-    //                 fprintf(fp, "%d", member1.points);
-    //                 fclose(fp);
-    //                 fp = fopen(hold2, "w");
-    //                 fprintf(fp, "%d", member2.points);
-    //                 fclose(fp);
-    //                 printf("%s", "goodbye");
-    //                 break;
-    //             }
-
-    //             if ((i % 2) == 0)
-    //             {
-    //                 for (int j = 0; j < 64; j++)
+    //                 if (check(array, array[j].x, array[j].y) == 1)
     //                 {
-    //                     if (check(array, array[j].x, array[j].y) == 1)
-    //                     {
-    //                         //         printf("%s you can choose x = %d y = %d block\n",member1.name,array[j].x, array[j].y);
-    //                         t++;
-    //                     };
-    //                 }
-    //                 if (t == 0)
-    //                 {
-    //                     int sentinel1 = 0;
-    //                     printf("you can't move\n");
-    //                     extraCounter++;
-    //                     for (int j = 0; j < 64; j++)
-    //                     {
-    //                         if (checkb(array, array[j].x, array[j].y) == 1)
-    //                         {
-    //                             sentinel1++;
-    //                         }
-    //                     }
-    //                     if (sentinel1 == 0)
-    //                     {
-    //                         break;
-    //                     }
-
-    //                     continue;
-    //                 }
-
-    //                 if (i >= 2)
-    //                 {
-    //                     if (counter == 1)
-    //                     {
-    //                         if (i > index1)
-    //                         {
-    //                             int x = 0;
-    //                             if (turnBackCountera > 0)
-    //                             {
-    //                                 printf("%s do you want to go back?", member1.name);
-    //                                 scanf("%d", &x);
-    //                                 if (x == 1)
-    //                                 {
-    //                                     for (int i = 0; i < 64; i++)
-    //                                     {
-    //                                         array[i].character = arraySupport1[i];
-    //                                     }
-    //                                     member1.points = pointSupporta1;
-    //                                     member2.points = pointSupporta2;
-    //                                     // tIsupport = i - 2;
-    //                                     i -= 3;
-    //                                     turnBackCountera--;
-    //                                     counter = 0;
-    //                                     continue;
-    //                                 }
-    //                             }
-    //                         }
-    //                     }
-    //                 }
-    //                 if (i >= 4)
-    //                 {
-    //                     if (counter == 1)
-    //                     {
-    //                         if (i > index2)
-    //                         {
-    //                             int x = 0;
-    //                             if (turnBackCounterb > 0)
-    //                             {
-    //                                 printf("%s do you want to go back?", member2.name);
-    //                                 scanf("%d", &x);
-    //                                 if (x == 1)
-    //                                 {
-    //                                     for (int i = 0; i < 64; i++)
-    //                                     {
-    //                                         array[i].character = arraySupport2[i];
-    //                                     }
-    //                                     member1.points = pointSupportb1;
-    //                                     member2.points = pointSupportb2;
-    //                                     i -= 2;
-    //                                     turnBackCounterb--;
-    //                                     counter = 0;
-    //                                     continue;
-    //                                 }
-    //                             }
-    //                         }
-    //                     }
-    //                 }
-
-    //                 for (int i = 0; i < 64; i++)
-    //                 {
-    //                     arraySupport1[i] = array[i].character;
-    //                 }
-    //                 if (counter == 0)
-    //                 {
-    //                     counter = 1;
-    //                 }
-
-    //                 pointSupporta1 = member1.points;
-    //                 pointSupporta2 = member2.points;
-    //                 index1 = i;
-    //                 if (getnum1(array) == 0)
-    //                 {
-    //                     i--;
-    //                     continue;
+    //                     //         printf("%s you can choose x = %d y = %d block\n",member1.name,array[j].x, array[j].y);
+    //                     t++;
     //                 };
-
-    //                 // printarray(array);
-    //                 // printf("%s point is :%d\n", member1.name, member1.points);
-    //                 // printf("%s point is :%d\n", member2.name, member2.points);
     //             }
-
-    //             /*o turn*/
-
-    //             if ((i % 2) == 1)
+    //             if (t == 0)
     //             {
+    //                 int sentinel1 = 0;
+    //                 printf("you can't move\n");
+    //                 extraCounter++;
     //                 for (int j = 0; j < 64; j++)
     //                 {
     //                     if (checkb(array, array[j].x, array[j].y) == 1)
     //                     {
-    //                         //         printf("%s you can choose x = %d y = %d block\n",member2.name,array[j].x, array[j].y);
-    //                         t++;
-    //                     };
-    //                 }
-    //                 if (t == 0)
-    //                 {
-    //                     int sentinel2 = 0;
-    //                     printf("you can't move\n");
-    //                     extraCounter++;
-    //                     for (int j = 0; j < 64; j++)
-    //                     {
-    //                         if (check(array, array[j].x, array[j].y) == 1)
-    //                         {
-    //                             sentinel2++;
-    //                         }
-    //                     }
-    //                     if (sentinel2 == 0)
-    //                     {
-    //                         break;
-    //                     }
-
-    //                     continue;
-    //                 }
-    //                 if (i >= 3)
-    //                 {
-    //                     if (counter == 1)
-    //                     {
-    //                         if (i > index2)
-    //                         {
-
-    //                             int x = 0;
-    //                             // if (oISupport != i)
-    //                             // {
-    //                             if (turnBackCounterb > 0)
-    //                             {
-    //                                 printf("%s do you want to go back?", member2.name);
-    //                                 scanf("%d", &x);
-
-    //                                 if (x == 1)
-    //                                 {
-    //                                     for (int i = 0; i < 64; i++)
-    //                                     {
-    //                                         array[i].character = arraySupport2[i];
-    //                                     }
-    //                                     member1.points = pointSupportb1;
-    //                                     member2.points = pointSupportb2;
-    //                                     // oISupport = i - 2;
-    //                                     i -= 3;
-    //                                     turnBackCounterb--;
-    //                                     counter = 0;
-    //                                     continue;
-    //                                 }
-    //                             }
-    //                             // }
-    //                         }
+    //                         sentinel1++;
     //                     }
     //                 }
-    //                 if (i >= 3)
+    //                 if (sentinel1 == 0)
     //                 {
-    //                     if (counter == 1)
-    //                     {
-    //                         if (i > index1)
-    //                         {
-
-    //                             int x = 0;
-    //                             if (turnBackCountera > 0)
-    //                             {
-    //                                 printf("%s do you want to go back?", member1.name);
-    //                                 scanf("%d", &x);
-
-    //                                 if (x == 1)
-    //                                 {
-    //                                     for (int i = 0; i < 64; i++)
-    //                                     {
-    //                                         array[i].character = arraySupport1[i];
-    //                                     }
-    //                                     member1.points = pointSupporta1;
-    //                                     member2.points = pointSupporta2;
-    //                                     i -= 2;
-    //                                     turnBackCountera--;
-    //                                     counter = 0;
-    //                                     continue;
-    //                                 }
-    //                             }
-    //                         }
-    //                     }
-    //                 }
-    //                 for (int i = 0; i < 64; i++)
-    //                 {
-    //                     arraySupport2[i] = array[i].character;
-    //                 }
-    //                 pointSupportb1 = member1.points;
-    //                 pointSupportb2 = member2.points;
-    //                 index2 = i;
-    //                 if (counter == 0)
-    //                 {
-    //                     counter = 1;
+    //                     break;
     //                 }
 
-    //                 if (getnum2(array) == 0)
-    //                 {
-    //                     i--;
-    //                     continue;
-    //                 };
-
-    //                 // printarray(array);
-    //                 // printf("%s point is :%d\n", member1.name, member1.points);
-    //                 // printf("%s point is :%d\n", member2.name, member2.points);
+    //                 continue;
     //             }
+
+    //             if (i >= 2)
+    //             {
+    //                 if (counter == 1)
+    //                 {
+    //                     if (i > index1)
+    //                     {
+    //                         int x = 0;
+    //                         if (turnBackCountera > 0)
+    //                         {
+    //                             printf("%s do you want to go back?", member1.name);
+    //                             scanf("%d", &x);
+    //                             if (x == 1)
+    //                             {
+    //                                 for (int i = 0; i < 64; i++)
+    //                                 {
+    //                                     array[i].character = arraySupport1[i];
+    //                                 }
+    //                                 member1.points = pointSupporta1;
+    //                                 member2.points = pointSupporta2;
+    //                                 // tIsupport = i - 2;
+    //                                 i -= 3;
+    //                                 turnBackCountera--;
+    //                                 counter = 0;
+    //                                 continue;
+    //                             }
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //             if (i >= 4)
+    //             {
+    //                 if (counter == 1)
+    //                 {
+    //                     if (i > index2)
+    //                     {
+    //                         int x = 0;
+    //                         if (turnBackCounterb > 0)
+    //                         {
+    //                             printf("%s do you want to go back?", member2.name);
+    //                             scanf("%d", &x);
+    //                             if (x == 1)
+    //                             {
+    //                                 for (int i = 0; i < 64; i++)
+    //                                 {
+    //                                     array[i].character = arraySupport2[i];
+    //                                 }
+    //                                 member1.points = pointSupportb1;
+    //                                 member2.points = pointSupportb2;
+    //                                 i -= 2;
+    //                                 turnBackCounterb--;
+    //                                 counter = 0;
+    //                                 continue;
+    //                             }
+    //                         }
+    //                     }
+    //                 }
+    //             }
+
+    //             for (int i = 0; i < 64; i++)
+    //             {
+    //                 arraySupport1[i] = array[i].character;
+    //             }
+    //             if (counter == 0)
+    //             {
+    //                 counter = 1;
+    //             }
+
+    //             pointSupporta1 = member1.points;
+    //             pointSupporta2 = member2.points;
+    //             index1 = i;
+    //             if (getnum1(array) == 0)
+    //             {
+    //                 i--;
+    //                 continue;
+    //             };
+
+    //             // printarray(array);
+    //             // printf("%s point is :%d\n", member1.name, member1.points);
+    //             // printf("%s point is :%d\n", member2.name, member2.points);
     //         }
-    //         if (chooseWinner(array) == 1)
+
+    //         /*o turn*/
+
+    //         if ((i % 2) == 1)
     //         {
-    //             printf("%s won the game", member1.name);
-    //         }
-    //         if (chooseWinner(array) == 2)
-    //         {
-    //             printf("%s won the game", member2.name);
+    //             for (int j = 0; j < 64; j++)
+    //             {
+    //                 if (checkb(array, array[j].x, array[j].y) == 1)
+    //                 {
+    //                     //         printf("%s you can choose x = %d y = %d block\n",member2.name,array[j].x, array[j].y);
+    //                     t++;
+    //                 };
+    //             }
+    //             if (t == 0)
+    //             {
+    //                 int sentinel2 = 0;
+    //                 printf("you can't move\n");
+    //                 extraCounter++;
+    //                 for (int j = 0; j < 64; j++)
+    //                 {
+    //                     if (check(array, array[j].x, array[j].y) == 1)
+    //                     {
+    //                         sentinel2++;
+    //                     }
+    //                 }
+    //                 if (sentinel2 == 0)
+    //                 {
+    //                     break;
+    //                 }
+
+    //                 continue;
+    //             }
+    //             if (i >= 3)
+    //             {
+    //                 if (counter == 1)
+    //                 {
+    //                     if (i > index2)
+    //                     {
+
+    //                         int x = 0;
+    //                         // if (oISupport != i)
+    //                         // {
+    //                         if (turnBackCounterb > 0)
+    //                         {
+    //                             printf("%s do you want to go back?", member2.name);
+    //                             scanf("%d", &x);
+
+    //                             if (x == 1)
+    //                             {
+    //                                 for (int i = 0; i < 64; i++)
+    //                                 {
+    //                                     array[i].character = arraySupport2[i];
+    //                                 }
+    //                                 member1.points = pointSupportb1;
+    //                                 member2.points = pointSupportb2;
+    //                                 // oISupport = i - 2;
+    //                                 i -= 3;
+    //                                 turnBackCounterb--;
+    //                                 counter = 0;
+    //                                 continue;
+    //                             }
+    //                         }
+    //                         // }
+    //                     }
+    //                 }
+    //             }
+    //             if (i >= 3)
+    //             {
+    //                 if (counter == 1)
+    //                 {
+    //                     if (i > index1)
+    //                     {
+
+    //                         int x = 0;
+    //                         if (turnBackCountera > 0)
+    //                         {
+    //                             printf("%s do you want to go back?", member1.name);
+    //                             scanf("%d", &x);
+
+    //                             if (x == 1)
+    //                             {
+    //                                 for (int i = 0; i < 64; i++)
+    //                                 {
+    //                                     array[i].character = arraySupport1[i];
+    //                                 }
+    //                                 member1.points = pointSupporta1;
+    //                                 member2.points = pointSupporta2;
+    //                                 i -= 2;
+    //                                 turnBackCountera--;
+    //                                 counter = 0;
+    //                                 continue;
+    //                             }
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //             for (int i = 0; i < 64; i++)
+    //             {
+    //                 arraySupport2[i] = array[i].character;
+    //             }
+    //             pointSupportb1 = member1.points;
+    //             pointSupportb2 = member2.points;
+    //             index2 = i;
+    //             if (counter == 0)
+    //             {
+    //                 counter = 1;
+    //             }
+
+    //             if (getnum2(array) == 0)
+    //             {
+    //                 i--;
+    //                 continue;
+    //             };
+
+    //             // printarray(array);
+    //             // printf("%s point is :%d\n", member1.name, member1.points);
+    //             // printf("%s point is :%d\n", member2.name, member2.points);
     //         }
     //     }
+    //     if (chooseWinner(array) == 1)
+    //     {
+    //         printf("%s won the game", member1.name);
+    //     }
+    //     if (chooseWinner(array) == 2)
+    //     {
+    //         printf("%s won the game", member2.name);
+    //     }
+    // }
     return 0;
 }
