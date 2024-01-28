@@ -24,7 +24,7 @@ int menu (){
     int position = 1;
     int keyboard = 0;
 
-#define MAX 4
+#define MAX 5
 #define MIN 1
 int t = 1;
 while (keyboard !=13)
@@ -71,18 +71,28 @@ while (keyboard !=13)
     if (position==4)
     {
     arrowplace(4, position);
-    printf("\x1b[34mExit\n");
+    printf("\x1b[34mResume previous games in normal mode\n");
     printf("\x1b[0m");
     t = 4;
+    }
+    else
+    {
+    printf("Resume previous games in normal mode\n");
+    }
+
+    if (position==5)
+    {
+    arrowplace(5, position);
+    printf("\x1b[34mExit\n");
+    printf("\x1b[0m");
+    t = 5;
     }
     else
     {
     printf("Exit\n");
     }
 
-
     keyboard= _getch();
-    // printf("%c",keyboard);
     if (keyboard == 80 && position != MAX)
     {
         position++;
