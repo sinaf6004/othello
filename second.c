@@ -2206,7 +2206,7 @@ int main()
                                     }
                                     member1.points = pointSupporta1;
                                     member2.points = pointSupporta2;
-                                    i -= index1 - 1;
+                                    i = index1 - 1;
                                     turnBackCountera--;
                                     counter = 0;
                                     continue;
@@ -3114,7 +3114,7 @@ int main()
             counter = decodingNumber(save.counter);
             x23 = decodingNumber(save.x23);
             extraCounter = decodingNumber(save.extraCounter);
-
+            printf("index 1 = %d , index 2 = %d\n",index1 ,index2);
             for (int i = startI; i < 60 + extraCounter; i++)
             {
                 printarray(array);
@@ -3169,7 +3169,7 @@ int main()
                                         }
                                         member1.points = pointSupporta1;
                                         member2.points = pointSupporta2;
-                                        i -= index1 - 1;
+                                        i = index1 - 1;
                                         turnBackCountera--;
                                         counter = 0;
                                         continue;
