@@ -87,6 +87,13 @@ struct globalPoint
 typedef struct globalPoint globalPoint;
 globalPoint globalPointMember1;
 globalPoint globalPointMember2;
+void delay(int number_of_seconds)
+{
+    int milli_seconds = 1000 * number_of_seconds;
+    clock_t start_time = clock();
+    while (clock() < start_time + milli_seconds)
+        ;
+}
 void firstvaluesSave(partition array[])
 {
     // for (int i = 0; i < 64; i++)
@@ -1544,1578 +1551,617 @@ int decodingNumber(int x)
 /// *********************************************************************
 int main()
 {
-    partition array[64];
-    t = menu();
-    if (t == 1)
+    while (1)
     {
-        scanf("%s", &member1.name);
-        scanf("%s", &member2.name);
-        prointPreviousGames(member1.name, member2.name);
-        char holdFileName[50];
-        // forchecking the past games
-        char holdIsIt1[50] = {'\0'};
-        char holdIsIt2[50] = {'\0'};
-        printf("which game do you want to continue?\n");
-        // Enter which game do you want to resume...
-        scanf("%s", holdFileName);
-        char globalPointName1[20];
-        FILE *filePointer;
-        globalPoint readFile1;
-        globalPoint readFile2;
-        globalPointName1[0] = '\0';
-        strcpy(globalPointName1, member1.name);
-        strcat(globalPointName1, "points.txt");
-        filePointer = fopen(globalPointName1, "r");
-        fread(&readFile1, sizeof(readFile1), 1, filePointer);
-        fclose(filePointer);
 
-        globalPointName1[0] = '\0';
-        strcpy(globalPointName1, member2.name);
-        strcat(globalPointName1, "points.txt");
-        filePointer = fopen(globalPointName1, "r");
-        fread(&readFile2, sizeof(readFile2), 1, filePointer);
-        fclose(filePointer);
-        saveFile save;
-        filePointer = fopen(holdFileName, "r");
-        fread(&save, sizeof(save), 1, filePointer);
-        fclose(filePointer);
-        char arraySupport1[64];
-        char arraySupport2[64];
-        int pointSupporta1;
-        int pointSupporta2;
-        int pointSupportb1;
-        int pointSupportb2;
-        int turnBackCountera = 2;
-        int turnBackCounterb = 2;
-        int index1 = 0;
-        int index2 = 0;
-        int counter = 0;
-        int x23;
-        int extraCounter = 0;
-        int extraTime1a;
-        int extraTime1b;
-        int extraTime1Counter = 0;
-        int extraTime1Countersu = 0;
-        int extraTime2a;
-        int extraTime2b;
-        int extraTime2Counter = 0;
-        int extraTime2Countersu = 0;
-        strcpy(holdIsIt1, member1.name);
-        strcat(holdIsIt1, member2.name);
-        strcpy(holdIsIt2, save.member1);
-        strcat(holdIsIt2, save.member2);
-        int startI;
-        // values for coding and decoding
-        char mainArrayCoding[64];
-        char arraySupport1Coding[64];
-        char arraySupport2Coding[64];
-        char mainArrayDecoding[64];
-        char arraySupport1Decoding[64];
-        char arraySupport2Decoding[64];
-        if (strcmp(holdIsIt1, holdIsIt2) == 0)
+        partition array[64];
+        t = menu();
+        // delay(10);
+        // system("cls");
+        if (t == 1)
         {
-            // decoding
-            startI = decodingNumber(save.turn) + 1;
-            member1.points = readFile1.point;
-            member2.points = readFile2.point;
-            decodingChar(save.array, mainArrayDecoding);
-            decodingChar(save.arraySupport1, arraySupport1Decoding);
-            decodingChar(save.arraySupport2, arraySupport2Decoding);
-            for (int i = 0; i < 64; i++)
+            scanf("%s", &member1.name);
+            scanf("%s", &member2.name);
+            prointPreviousGames(member1.name, member2.name);
+            char holdFileName[50];
+            char holdIsIt1[50] = {'\0'};
+            char holdIsIt2[50] = {'\0'};
+            printf("which game do you want to continue?\n");
+            scanf("%s", holdFileName);
+            char globalPointName1[20];
+            FILE *filePointer;
+            globalPoint readFile1;
+            globalPoint readFile2;
+            globalPointName1[0] = '\0';
+            strcpy(globalPointName1, member1.name);
+            strcat(globalPointName1, "points.txt");
+            filePointer = fopen(globalPointName1, "r");
+            fread(&readFile1, sizeof(readFile1), 1, filePointer);
+            fclose(filePointer);
+
+            globalPointName1[0] = '\0';
+            strcpy(globalPointName1, member2.name);
+            strcat(globalPointName1, "points.txt");
+            filePointer = fopen(globalPointName1, "r");
+            fread(&readFile2, sizeof(readFile2), 1, filePointer);
+            fclose(filePointer);
+            saveFile save;
+            filePointer = fopen(holdFileName, "r");
+            fread(&save, sizeof(save), 1, filePointer);
+            fclose(filePointer);
+            char arraySupport1[64];
+            char arraySupport2[64];
+            int pointSupporta1;
+            int pointSupporta2;
+            int pointSupportb1;
+            int pointSupportb2;
+            int turnBackCountera = 2;
+            int turnBackCounterb = 2;
+            int index1 = 0;
+            int index2 = 0;
+            int counter = 0;
+            int x23;
+            int extraCounter = 0;
+            int extraTime1a;
+            int extraTime1b;
+            int extraTime1Counter = 0;
+            int extraTime1Countersu = 0;
+            int extraTime2a;
+            int extraTime2b;
+            int extraTime2Counter = 0;
+            int extraTime2Countersu = 0;
+            strcpy(holdIsIt1, member1.name);
+            strcat(holdIsIt1, member2.name);
+            strcpy(holdIsIt2, save.member1);
+            strcat(holdIsIt2, save.member2);
+            int startI;
+            char mainArrayCoding[64];
+            char arraySupport1Coding[64];
+            char arraySupport2Coding[64];
+            char mainArrayDecoding[64];
+            char arraySupport1Decoding[64];
+            char arraySupport2Decoding[64];
+            if (strcmp(holdIsIt1, holdIsIt2) == 0)
             {
-                array[i].character = mainArrayDecoding[i];
-            }
-            time1 = (save.time1);
-            time2 = (save.time2);
-            firstvaluesSave(array);
-            for (int i = 0; i < 64; i++)
-            {
-                arraySupport1[i] = arraySupport1Decoding[i];
-            }
-            printf("\n");
-            for (int i = 0; i < 64; i++)
-            {
-                arraySupport2[i] = arraySupport2Decoding[i];
-            }
-            printf("\n");
-
-            pointSupporta1 = readFile1.point + decodingNumber(save.pointSupporta1) - member1.points;
-            pointSupporta2 = readFile2.point + decodingNumber(save.pointSupporta2) - member2.points;
-            pointSupportb1 = readFile1.point + decodingNumber(save.pointSupportb1) - member1.points;
-            pointSupportb2 = readFile2.point + decodingNumber(save.pointSupportb2) - member2.points;
-            printf("%d %d %d %d\n", pointSupporta1, pointSupporta2, pointSupportb1, pointSupportb2);
-            turnBackCountera = decodingNumber(save.turnBackCountera);
-            turnBackCounterb = decodingNumber(save.turnBackCounterb);
-            index1 = decodingNumber(save.index1);
-            index2 = decodingNumber(save.index2);
-            counter = decodingNumber(save.counter);
-            x23 = decodingNumber(save.x23);
-            extraCounter = decodingNumber(save.extraCounter);
-            extraTime1a = decodingNumber(save.extraTime1a);
-            extraTime1b = decodingNumber(save.extraTime1b);
-            extraTime1Counter = decodingNumber(save.extraTime1Counter);
-            extraTime1Countersu = decodingNumber(save.extraTime1Countersu);
-            extraTime2a = decodingNumber(save.extraTime2a);
-            extraTime2b = decodingNumber(save.extraTime2b);
-            extraTime2Counter = decodingNumber(save.extraTime2Counter);
-            extraTime2Countersu = decodingNumber(save.extraTime2Countersu);
-            clock_t start, end;
-            for (int i = startI; i < 64 + extraCounter; i++)
-            {
-                if ((turnBackCountera == 0) && (i == index1))
+                startI = decodingNumber(save.turn) + 1;
+                member1.points = readFile1.point;
+                member2.points = readFile2.point;
+                decodingChar(save.array, mainArrayDecoding);
+                decodingChar(save.arraySupport1, arraySupport1Decoding);
+                decodingChar(save.arraySupport2, arraySupport2Decoding);
+                for (int i = 0; i < 64; i++)
                 {
-                    extraTime1Counter++;
-                    extraTime1Countersu = 1;
-                    turnBackCountera = -1; /*for avoiding to enter again in this if*/
+                    array[i].character = mainArrayDecoding[i];
                 }
-                if ((i == index1 + 1) && (extraTime1Counter == 1))
+                time1 = (save.time1);
+                time2 = (save.time2);
+                firstvaluesSave(array);
+                for (int i = 0; i < 64; i++)
                 {
-                    extraTime1Counter++;
-                    extraTime1Countersu = 1;
-                    extraTime1Counter = 0;
+                    arraySupport1[i] = arraySupport1Decoding[i];
                 }
-
-                if ((turnBackCounterb == 0) && (i == index2))
+                printf("\n");
+                for (int i = 0; i < 64; i++)
                 {
-                    extraTime2Counter++;
-                    extraTime2Countersu = 1;
-                    turnBackCounterb = -1; /*for avoiding to enter again in this if*/
+                    arraySupport2[i] = arraySupport2Decoding[i];
                 }
-                if ((i == index2 + 1) && (extraTime2Counter == 1))
+                printf("\n");
+
+                pointSupporta1 = readFile1.point + decodingNumber(save.pointSupporta1) - member1.points;
+                pointSupporta2 = readFile2.point + decodingNumber(save.pointSupporta2) - member2.points;
+                pointSupportb1 = readFile1.point + decodingNumber(save.pointSupportb1) - member1.points;
+                pointSupportb2 = readFile2.point + decodingNumber(save.pointSupportb2) - member2.points;
+                printf("%d %d %d %d\n", pointSupporta1, pointSupporta2, pointSupportb1, pointSupportb2);
+                turnBackCountera = decodingNumber(save.turnBackCountera);
+                turnBackCounterb = decodingNumber(save.turnBackCounterb);
+                index1 = decodingNumber(save.index1);
+                index2 = decodingNumber(save.index2);
+                counter = decodingNumber(save.counter);
+                x23 = decodingNumber(save.x23);
+                extraCounter = decodingNumber(save.extraCounter);
+                extraTime1a = decodingNumber(save.extraTime1a);
+                extraTime1b = decodingNumber(save.extraTime1b);
+                extraTime1Counter = decodingNumber(save.extraTime1Counter);
+                extraTime1Countersu = decodingNumber(save.extraTime1Countersu);
+                extraTime2a = decodingNumber(save.extraTime2a);
+                extraTime2b = decodingNumber(save.extraTime2b);
+                extraTime2Counter = decodingNumber(save.extraTime2Counter);
+                extraTime2Countersu = decodingNumber(save.extraTime2Countersu);
+                clock_t start, end;
+                for (int i = startI; i < (60 + extraCounter); i++)
                 {
-                    extraTime2Counter++;
-                    extraTime2Countersu = 1;
-                    extraTime2Counter = 0;
-                }
-
-                printarray(array);
-                printf("i = %d\n", i);
-                start = clock();
-                int t = 0;
-                if ((i % 2) == 0)
-                {
-                    for (int j = 0; j < 64; j++)
+                    if ((turnBackCountera == 0) && (i == index1))
                     {
-                        if (check(array, array[j].x, array[j].y) == 1)
-                        {
-                            t++;
-                        };
+                        extraTime1Counter++;
+                        extraTime1Countersu = 1;
+                        turnBackCountera = -1; /*for avoiding to enter again in this if*/
+                    }
+                    if ((i == index1 + 1) && (extraTime1Counter == 1))
+                    {
+                        extraTime1Counter++;
+                        extraTime1Countersu = 1;
+                        extraTime1Counter = 0;
                     }
 
-                    if (t == 0)
+                    if ((turnBackCounterb == 0) && (i == index2))
                     {
-                        int sentinel1 = 0;
-                        printf("you can't move ff\n");
-                        extraCounter++;
-                        for (int j = 0; j < 64; j++)
-                        {
-                            if (checkb(array, array[j].x, array[j].y) == 1)
-                            {
-                                sentinel1++;
-                            }
-                        }
-                        if (sentinel1 == 0)
-                        {
-                            break;
-                        }
-
-                        continue;
+                        extraTime2Counter++;
+                        extraTime2Countersu = 1;
+                        turnBackCounterb = -1; /*for avoiding to enter again in this if*/
                     }
-                    if (i >= 2)
+                    if ((i == index2 + 1) && (extraTime2Counter == 1))
                     {
-                        if (counter == 1)
-                        {
-                            if (i > index1)
-                            {
-                                int x = 0;
-                                if (turnBackCountera > 0)
-                                {
-
-                                    printf("%s do you want to go back?", member1.name);
-                                    scanf("%d", &x);
-                                    if (x == 1)
-                                    {
-                                        if (turnBackCountera == 2)
-                                        {
-                                            time1 -= 30;
-                                        }
-                                        if (turnBackCountera)
-                                        {
-                                            time1 -= 60;
-                                        }
-                                        for (int i = 0; i < 64; i++)
-                                        {
-                                            array[i].character = arraySupport1[i];
-                                        }
-                                        member1.points = pointSupporta1;
-                                        member2.points = pointSupporta2;
-                                        i = index1 - 1;
-                                        turnBackCountera--;
-                                        counter = 0;
-                                        continue;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if (i >= 2)
-                    {
-                        if (counter == 1)
-                        {
-                            if (i > index2)
-                            {
-                                int x = 0;
-                                if (turnBackCounterb > 0)
-                                {
-                                    printf("%s do you want to go back?", member2.name);
-                                    scanf("%d", &x);
-                                    if (x == 1)
-                                    {
-                                        if (turnBackCounterb == 2)
-                                        {
-                                            time2 -= 30;
-                                        }
-                                        if (turnBackCounterb == 1)
-                                        {
-                                            time2 -= 60;
-                                        }
-
-                                        for (int i = 0; i < 64; i++)
-                                        {
-                                            array[i].character = arraySupport2[i];
-                                        }
-                                        member1.points = pointSupportb1;
-                                        member2.points = pointSupportb2;
-                                        i = index2 - 1;
-                                        turnBackCounterb--;
-                                        counter = 0;
-                                        continue;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    for (int i = 0; i < 64; i++)
-                    {
-                        arraySupport1[i] = array[i].character;
-                    }
-                    if (counter == 0)
-                    {
-                        counter = 1;
+                        extraTime2Counter++;
+                        extraTime2Countersu = 1;
+                        extraTime2Counter = 0;
                     }
 
-                    pointSupporta1 = member1.points;
-                    pointSupporta2 = member2.points;
-                    index1 = i;
-
-                    if (getnum1(array) == 0)
+                    printarray(array);
+                    printf("i = %d\n", i);
+                    start = clock();
+                    int t = 0;
+                    if ((i % 2) == 0)
                     {
-                        end = clock();
-                        int reduce = (end - start) / CLOCKS_PER_SEC;
-                        time1 -= reduce;
-                        printf("time 1 = %d\n", time1);
-                        i--;
-                        continue;
-                    };
-                    end = clock();
-                    int reduce = (end - start) / CLOCKS_PER_SEC;
-                    time1 -= reduce;
-                    printf("player one reduce = %d\n");
-                    if (extraTime1Countersu == 1)
-                    {
-                        printf("%d added to time2", reduce);
-                        time2 += reduce;
-                        extraTime1Countersu = 0;
-                    }
-                    if (extraTime2Countersu == 1)
-                    {
-                        printf("%d added to time1\n", reduce);
-                        time1 += reduce;
-                        extraTime2Countersu = 0;
-                    }
-
-                    if (time1 < 0)
-                    {
-                        printf("player one you lost the time\nplayer 2 won the game");
-                        break;
-                    }
-                }
-                if ((i % 2) == 1)
-                {
-
-                    for (int j = 0; j < 64; j++)
-                    {
-                        if (checkb(array, array[j].x, array[j].y) == 1)
-                        {
-                            t++;
-                        };
-                    }
-                    printf("t = %d\n");
-                    if (t == 0)
-                    {
-                        int sentinel2 = 0;
-                        printf("you can't move lll\n");
-                        extraCounter++;
                         for (int j = 0; j < 64; j++)
                         {
                             if (check(array, array[j].x, array[j].y) == 1)
                             {
-                                sentinel2++;
+                                t++;
+                            };
+                        }
+
+                        if (t == 0)
+                        {
+                            int sentinel1 = 0;
+                            printf("you can't move \n");
+                            extraCounter++;
+                            for (int j = 0; j < 64; j++)
+                            {
+                                if (checkb(array, array[j].x, array[j].y) == 1)
+                                {
+                                    sentinel1++;
+                                }
+                            }
+                            if (sentinel1 == 0)
+                            {
+                                break;
+                            }
+
+                            continue;
+                        }
+                        if (i >= 2)
+                        {
+                            if (counter == 1)
+                            {
+                                if (i > index1)
+                                {
+                                    int x = 0;
+                                    if (turnBackCountera > 0)
+                                    {
+
+                                        printf("%s do you want to go back?", member1.name);
+                                        scanf("%d", &x);
+                                        if (x == 1)
+                                        {
+                                            if (turnBackCountera == 2)
+                                            {
+                                                time1 -= 30;
+                                            }
+                                            if (turnBackCountera)
+                                            {
+                                                time1 -= 60;
+                                            }
+                                            for (int i = 0; i < 64; i++)
+                                            {
+                                                array[i].character = arraySupport1[i];
+                                            }
+                                            member1.points = pointSupporta1;
+                                            member2.points = pointSupporta2;
+                                            i = index1 - 1;
+                                            turnBackCountera--;
+                                            counter = 0;
+                                            continue;
+                                        }
+                                    }
+                                }
                             }
                         }
-                        if (sentinel2 == 0)
+                        if (i >= 2)
                         {
+                            if (counter == 1)
+                            {
+                                if (i > index2)
+                                {
+                                    int x = 0;
+                                    if (turnBackCounterb > 0)
+                                    {
+                                        printf("%s do you want to go back?", member2.name);
+                                        scanf("%d", &x);
+                                        if (x == 1)
+                                        {
+                                            if (turnBackCounterb == 2)
+                                            {
+                                                time2 -= 30;
+                                            }
+                                            if (turnBackCounterb == 1)
+                                            {
+                                                time2 -= 60;
+                                            }
+
+                                            for (int i = 0; i < 64; i++)
+                                            {
+                                                array[i].character = arraySupport2[i];
+                                            }
+                                            member1.points = pointSupportb1;
+                                            member2.points = pointSupportb2;
+                                            i = index2 - 1;
+                                            turnBackCounterb--;
+                                            counter = 0;
+                                            continue;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        for (int i = 0; i < 64; i++)
+                        {
+                            arraySupport1[i] = array[i].character;
+                        }
+                        if (counter == 0)
+                        {
+                            counter = 1;
+                        }
+
+                        pointSupporta1 = member1.points;
+                        pointSupporta2 = member2.points;
+                        index1 = i;
+
+                        if (getnum1(array) == 0)
+                        {
+                            end = clock();
+                            int reduce = (end - start) / CLOCKS_PER_SEC;
+                            time1 -= reduce;
+                            printf("time 1 = %d\n", time1);
+                            i--;
+                            continue;
+                        };
+                        end = clock();
+                        int reduce = (end - start) / CLOCKS_PER_SEC;
+                        time1 -= reduce;
+                        printf("player one reduce = %d\n");
+                        if (extraTime1Countersu == 1)
+                        {
+                            printf("%d added to time2", reduce);
+                            time2 += reduce;
+                            extraTime1Countersu = 0;
+                        }
+                        if (extraTime2Countersu == 1)
+                        {
+                            printf("%d added to time1\n", reduce);
+                            time1 += reduce;
+                            extraTime2Countersu = 0;
+                        }
+
+                        if (time1 < 0)
+                        {
+                            printf("player one you lost the time\nplayer 2 won the game");
+                            break;
+                        }
+                    }
+                    if ((i % 2) == 1)
+                    {
+
+                        for (int j = 0; j < 64; j++)
+                        {
+                            if (checkb(array, array[j].x, array[j].y) == 1)
+                            {
+                                t++;
+                            };
+                        }
+                        printf("t = %d\n");
+                        if (t == 0)
+                        {
+                            int sentinel2 = 0;
+                            printf("you can't move \n");
+                            extraCounter++;
+                            for (int j = 0; j < 64; j++)
+                            {
+                                if (check(array, array[j].x, array[j].y) == 1)
+                                {
+                                    sentinel2++;
+                                }
+                            }
+                            if (sentinel2 == 0)
+                            {
+                                break;
+                            }
+
+                            continue;
+                        }
+                        if (i >= 2)
+                        {
+                            if (counter == 1)
+                            {
+                                if (i > index2)
+                                {
+
+                                    int x = 0;
+                                    if (turnBackCounterb > 0)
+                                    {
+                                        printf("%s do you want to go back?", member2.name);
+                                        scanf("%d", &x);
+
+                                        if (x == 1)
+                                        {
+                                            if (turnBackCounterb == 2)
+                                            {
+                                                time2 -= 30;
+                                            }
+                                            if (turnBackCounterb == 1)
+                                            {
+                                                time2 -= 60;
+                                            }
+
+                                            for (int i = 0; i < 64; i++)
+                                            {
+                                                array[i].character = arraySupport2[i];
+                                            }
+                                            member1.points = pointSupportb1;
+                                            member2.points = pointSupportb2;
+                                            i = index2 - 1;
+                                            turnBackCounterb--;
+                                            counter = 0;
+                                            continue;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if (i >= 3)
+                        {
+                            if (counter == 1)
+                            {
+                                if (i > index1)
+                                {
+
+                                    int x = 0;
+                                    if (turnBackCountera > 0)
+                                    {
+                                        printf("%s do you want to go back?", member1.name);
+                                        scanf("%d", &x);
+
+                                        if (x == 1)
+                                        {
+                                            if (turnBackCountera == 2)
+                                            {
+                                                time1 -= 30;
+                                            }
+                                            if (turnBackCountera == 1)
+                                            {
+                                                time1 -= 60;
+                                            }
+
+                                            for (int i = 0; i < 64; i++)
+                                            {
+                                                array[i].character = arraySupport1[i];
+                                            }
+                                            member1.points = pointSupporta1;
+                                            member2.points = pointSupporta2;
+                                            i = index1 - 1;
+                                            turnBackCountera--;
+                                            counter = 0;
+                                            continue;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        for (int i = 0; i < 64; i++)
+                        {
+                            arraySupport2[i] = array[i].character;
+                        }
+                        pointSupportb1 = member1.points;
+                        pointSupportb2 = member2.points;
+                        index2 = i;
+                        if (counter == 0)
+                        {
+                            counter = 1;
+                        }
+
+                        if (getnum2(array) == 0)
+                        {
+                            i--;
+                            continue;
+                        };
+                        end = clock();
+                        int reduce = (end - start) / CLOCKS_PER_SEC;
+                        time2 -= reduce;
+                        printf("player two reduce = %d\n");
+                        if (extraTime1Countersu == 1)
+                        {
+                            printf("%d added to time2", reduce);
+                            time2 += reduce;
+                            extraTime1Countersu = 0;
+                        }
+                        if (extraTime2Countersu == 1)
+                        {
+                            printf("%d added to time1", reduce);
+                            time1 += reduce;
+                            extraTime2Countersu = 0;
+                        }
+
+                        if (time2 < 0)
+                        {
+                            printf("player two you lost the time\nplayer 1 won thegame");
+                            member1.points = 0;
                             break;
                         }
 
-                        continue;
+                        // printarray(array);
+                        // printf("%s point is :%d\n", member1.name, member1.points);
+                        // printf("%s point is :%d\n", member2.name, member2.points);
                     }
-                    if (i >= 2)
+                    printf("do you want to save the game and quit?(yes = 1/no = 0)\n");
+                    int saveCheck;
+                    scanf("%d", &saveCheck);
+                    if (saveCheck == 1)
                     {
-                        if (counter == 1)
+                        for (int i = 0; i < 64; i++)
                         {
-                            if (i > index2)
-                            {
-
-                                int x = 0;
-                                if (turnBackCounterb > 0)
-                                {
-                                    printf("%s do you want to go back?", member2.name);
-                                    scanf("%d", &x);
-
-                                    if (x == 1)
-                                    {
-                                        if (turnBackCounterb == 2)
-                                        {
-                                            time2 -= 30;
-                                        }
-                                        if (turnBackCounterb == 1)
-                                        {
-                                            time2 -= 60;
-                                        }
-
-                                        for (int i = 0; i < 64; i++)
-                                        {
-                                            array[i].character = arraySupport2[i];
-                                        }
-                                        member1.points = pointSupportb1;
-                                        member2.points = pointSupportb2;
-                                        // oISupport = i - 2;
-                                        i = index2 - 1;
-                                        turnBackCounterb--;
-                                        counter = 0;
-                                        continue;
-                                    }
-                                }
-                                // }
-                            }
+                            printf("%c", arraySupport2[i]);
                         }
-                    }
-                    if (i >= 3)
-                    {
-                        if (counter == 1)
+                        printf("\n");
+                        printf("%s\n", holdFileName);
+                        char mainArrayCharacter[64];
+                        for (int i = 0; i < 64; i++)
                         {
-                            if (i > index1)
-                            {
-
-                                int x = 0;
-                                if (turnBackCountera > 0)
-                                {
-                                    printf("%s do you want to go back?", member1.name);
-                                    scanf("%d", &x);
-
-                                    if (x == 1)
-                                    {
-                                        if (turnBackCountera == 2)
-                                        {
-                                            time1 -= 30;
-                                        }
-                                        if (turnBackCountera == 1)
-                                        {
-                                            time1 -= 60;
-                                        }
-
-                                        for (int i = 0; i < 64; i++)
-                                        {
-                                            array[i].character = arraySupport1[i];
-                                        }
-                                        member1.points = pointSupporta1;
-                                        member2.points = pointSupporta2;
-                                        i = index1 - 1;
-                                        turnBackCountera--;
-                                        counter = 0;
-                                        continue;
-                                    }
-                                }
-                            }
+                            mainArrayCharacter[i] = array[i].character;
                         }
-                    }
-                    for (int i = 0; i < 64; i++)
-                    {
-                        arraySupport2[i] = array[i].character;
-                    }
-                    pointSupportb1 = member1.points;
-                    pointSupportb2 = member2.points;
-                    index2 = i;
-                    if (counter == 0)
-                    {
-                        counter = 1;
-                    }
+                        codingChar(mainArrayCharacter, mainArrayCoding);
+                        codingChar(arraySupport1, arraySupport1Coding);
+                        codingChar(arraySupport2, arraySupport2Coding);
 
-                    if (getnum2(array) == 0)
-                    {
-                        i--;
-                        continue;
-                    };
-                    end = clock();
-                    int reduce = (end - start) / CLOCKS_PER_SEC;
-                    time2 -= reduce;
-                    printf("player two reduce = %d\n");
-                    if (extraTime1Countersu == 1)
-                    {
-                        printf("%d added to time2", reduce);
-                        time2 += reduce;
-                        extraTime1Countersu = 0;
-                    }
-                    if (extraTime2Countersu == 1)
-                    {
-                        printf("%d added to time1", reduce);
-                        time1 += reduce;
-                        extraTime2Countersu = 0;
-                    }
-
-                    if (time2 < 0)
-                    {
-                        printf("player two you lost the time\nplayer 1 won thegame");
-                        break;
-                    }
-
-                    // printarray(array);
-                    // printf("%s point is :%d\n", member1.name, member1.points);
-                    // printf("%s point is :%d\n", member2.name, member2.points);
-                }
-                printf("do you want to save the game and quit?(yes = 1/no = 0)\n");
-                int saveCheck;
-                scanf("%d", &saveCheck);
-                if (saveCheck == 1)
-                {
-                    for (int i = 0; i < 64; i++)
-                    {
-                        printf("%c", arraySupport2[i]);
-                    }
-                    printf("\n");
-                    printf("%s\n", holdFileName);
-                    char mainArrayCharacter[64];
-                    for (int i = 0; i < 64; i++)
-                    {
-                        mainArrayCharacter[i] = array[i].character;
-                    }
-                    codingChar(mainArrayCharacter, mainArrayCoding);
-                    codingChar(arraySupport1, arraySupport1Coding);
-                    codingChar(arraySupport2, arraySupport2Coding);
-
-                    for (int i = 0; i < 64; i++)
-                    {
-                        save.array[i] = mainArrayCoding[i];
-                    }
-                    strcpy(save.member1, (member1.name));
-                    strcpy(save.member2, (member2.name));
-                    save.time1 = (time1);
-                    save.time2 = (time2);
-                    save.turn = codingNumber(i);
-                    save.point1 = codingNumber(member1.points);
-                    save.point2 = codingNumber(member2.points);
-                    for (int i = 0; i < 64; i++)
-                    {
-                        save.arraySupport1[i] = arraySupport1Coding[i];
-                    }
-                    for (int i = 0; i < 64; i++)
-                    {
-                        save.arraySupport2[i] = arraySupport2Coding[i];
-                        printf("%c", arraySupport2[i]);
-                    }
-                    printf("\n");
-                    save.pointSupporta1 = codingNumber(pointSupporta1);
-                    save.pointSupporta2 = codingNumber(pointSupporta2);
-                    save.pointSupportb1 = codingNumber(pointSupportb1);
-                    save.pointSupportb2 = codingNumber(pointSupportb2);
-                    save.turnBackCountera = codingNumber(turnBackCountera);
-                    save.turnBackCounterb = codingNumber(turnBackCounterb);
-                    save.index1 = codingNumber(index1);
-                    save.index2 = codingNumber(index2);
-                    save.counter = codingNumber(counter);
-                    save.x23 = codingNumber(x23);
-                    save.extraCounter = codingNumber(extraCounter);
-                    save.extraTime1a = codingNumber(extraTime1a);
-                    save.extraTime1b = codingNumber(extraTime1b);
-                    save.extraTime1Counter = codingNumber(extraTime1Counter);
-                    save.extraTime1Countersu = codingNumber(extraTime1Countersu);
-                    save.extraTime2a = codingNumber(extraTime2a);
-                    save.extraTime2b = codingNumber(extraTime2b);
-                    save.extraTime2Counter = codingNumber(extraTime2Counter);
-                    save.extraTime2Countersu = codingNumber(extraTime2Countersu);
-                    // saving global points
-                    globalPointMember1.point = member1.points;
-                    strcpy(globalPointMember1.name, member1.name);
-                    globalPointMember2.point = member2.points;
-                    strcpy(globalPointMember2.name, member2.name);
-                    char globalPointName1[20];
-                    globalPointName1[0] = '\0';
-                    strcpy(globalPointName1, member1.name);
-                    strcat(globalPointName1, "points.txt");
-
-                    filePointer = fopen(globalPointName1, "w");
-                    fwrite(&globalPointMember1, sizeof(globalPointMember1), 1, filePointer);
-                    fclose(filePointer);
-                    globalPointName1[0] = '\0';
-                    strcpy(globalPointName1, member2.name);
-                    strcat(globalPointName1, "points.txt");
-
-                    filePointer = fopen(globalPointName1, "w");
-                    fwrite(&globalPointMember2, sizeof(globalPointMember2), 1, filePointer);
-                    fclose(filePointer);
-
-                    filePointer = fopen(holdFileName, "w");
-                    fwrite(&save, sizeof(save), 1, filePointer);
-                    fclose(filePointer);
-                }
-                printf("time 1 = %d and time 2 = %d\n", time1, time2);
-            }
-            if (chooseWinner(array) == 1)
-            {
-                printf("%s won the game", member1.name);
-            }
-            if (chooseWinner(array) == 2)
-            {
-                printf("%s won the game", member2.name);
-            }
-        }
-    }
-    if (t == 2)
-    {
-        scanf("%s", &member1.name);
-        scanf("%s", &member2.name);
-        int lastFileNUmber;
-        lastFileNUmber = prointPreviousGamesNormal(member1.name, member2.name);
-        FILE *filePointer;
-        char globalPointName1[20];
-        globalPoint readFile1;
-        globalPoint readFile2;
-        globalPointName1[0] = '\0';
-        strcpy(globalPointName1, member1.name);
-        strcat(globalPointName1, "points.txt");
-        filePointer = fopen(globalPointName1, "r");
-        fread(&readFile1, sizeof(readFile1), 1, filePointer);
-        fclose(filePointer);
-
-        globalPointName1[0] = '\0';
-        strcpy(globalPointName1, member2.name);
-        strcat(globalPointName1, "points.txt");
-        filePointer = fopen(globalPointName1, "r");
-        fread(&readFile2, sizeof(readFile2), 1, filePointer);
-        fclose(filePointer);
-        if (strcmp(readFile1.name, member1.name) == 0)
-        {
-            member1.points = readFile1.point;
-        }
-        else
-        {
-            member1.points = 0;
-        }
-        if (strcmp(readFile2.name, member2.name) == 0)
-        {
-            member2.points = readFile2.point;
-        }
-        else
-        {
-            member2.points = 0;
-        }
-        // values for coding and decoding
-        char mainArrayCoding[64];
-        char arraySupport1Coding[64];
-        char arraySupport2Coding[64];
-        char mainArrayDecoding[64];
-        char arraySupport1Decoding[64];
-        char arraySupport2Decoding[64];
-
-        char arraySupport1[64];
-        char arraySupport2[64];
-        int pointSupporta1;
-        int pointSupporta2;
-        int pointSupportb1;
-        int pointSupportb2;
-        firstvaluesNotSave(array);
-        int turnBackCountera = 2;
-        int turnBackCounterb = 2;
-        int index1 = 0;
-        int index2 = 0;
-        int counter = 0;
-        int x23;
-        int extraCounter = 0;
-        for (int i = 0; i < 60 + extraCounter; i++)
-        {
-            printarray(array);
-            printf("i = %d\n", i);
-            int t = 0;
-
-            if ((i % 2) == 0)
-            {
-                for (int j = 0; j < 64; j++)
-                {
-                    if (check(array, array[j].x, array[j].y) == 1)
-                    {
-                        t++;
-                    };
-                }
-                if (t == 0)
-                {
-                    int sentinel1 = 0;
-                    printf("you can't move\n");
-                    extraCounter++;
-                    for (int j = 0; j < 64; j++)
-                    {
-                        if (checkb(array, array[j].x, array[j].y) == 1)
+                        for (int i = 0; i < 64; i++)
                         {
-                            sentinel1++;
+                            save.array[i] = mainArrayCoding[i];
                         }
-                    }
-                    if (sentinel1 == 0)
-                    {
-                        break;
-                    }
-
-                    continue;
-                }
-
-                if (i >= 2)
-                {
-                    if (counter == 1)
-                    {
-                        if (i > index1)
+                        strcpy(save.member1, (member1.name));
+                        strcpy(save.member2, (member2.name));
+                        save.time1 = (time1);
+                        save.time2 = (time2);
+                        save.turn = codingNumber(i);
+                        save.point1 = codingNumber(member1.points);
+                        save.point2 = codingNumber(member2.points);
+                        for (int i = 0; i < 64; i++)
                         {
-                            int x = 0;
-                            if (turnBackCountera > 0)
-                            {
-                                printf("%s do you want to go back?", member1.name);
-                                scanf("%d", &x);
-                                if (x == 1)
-                                {
-                                    for (int i = 0; i < 64; i++)
-                                    {
-                                        array[i].character = arraySupport1[i];
-                                    }
-                                    member1.points = pointSupporta1;
-                                    member2.points = pointSupporta2;
-                                    i = index1 - 1;
-                                    turnBackCountera--;
-                                    counter = 0;
-                                    continue;
-                                }
-                            }
+                            save.arraySupport1[i] = arraySupport1Coding[i];
                         }
-                    }
-                }
-                if (i >= 2)
-                {
-                    if (counter == 1)
-                    {
-                        if (i > index2)
+                        for (int i = 0; i < 64; i++)
                         {
-                            int x = 0;
-                            if (turnBackCounterb > 0)
-                            {
-                                printf("%s do you want to go back?", member2.name);
-                                scanf("%d", &x);
-                                if (x == 1)
-                                {
-                                    for (int i = 0; i < 64; i++)
-                                    {
-                                        array[i].character = arraySupport2[i];
-                                    }
-                                    member1.points = pointSupportb1;
-                                    member2.points = pointSupportb2;
-                                    i = index2 - 1;
-                                    turnBackCounterb--;
-                                    counter = 0;
-                                    continue;
-                                }
-                            }
+                            save.arraySupport2[i] = arraySupport2Coding[i];
+                            printf("%c", arraySupport2[i]);
                         }
+                        printf("\n");
+                        save.pointSupporta1 = codingNumber(pointSupporta1);
+                        save.pointSupporta2 = codingNumber(pointSupporta2);
+                        save.pointSupportb1 = codingNumber(pointSupportb1);
+                        save.pointSupportb2 = codingNumber(pointSupportb2);
+                        save.turnBackCountera = codingNumber(turnBackCountera);
+                        save.turnBackCounterb = codingNumber(turnBackCounterb);
+                        save.index1 = codingNumber(index1);
+                        save.index2 = codingNumber(index2);
+                        save.counter = codingNumber(counter);
+                        save.x23 = codingNumber(x23);
+                        save.extraCounter = codingNumber(extraCounter);
+                        save.extraTime1a = codingNumber(extraTime1a);
+                        save.extraTime1b = codingNumber(extraTime1b);
+                        save.extraTime1Counter = codingNumber(extraTime1Counter);
+                        save.extraTime1Countersu = codingNumber(extraTime1Countersu);
+                        save.extraTime2a = codingNumber(extraTime2a);
+                        save.extraTime2b = codingNumber(extraTime2b);
+                        save.extraTime2Counter = codingNumber(extraTime2Counter);
+                        save.extraTime2Countersu = codingNumber(extraTime2Countersu);
+                        // saving global points
+                        globalPointMember1.point = member1.points;
+                        strcpy(globalPointMember1.name, member1.name);
+                        globalPointMember2.point = member2.points;
+                        strcpy(globalPointMember2.name, member2.name);
+                        char globalPointName1[20];
+                        globalPointName1[0] = '\0';
+                        strcpy(globalPointName1, member1.name);
+                        strcat(globalPointName1, "points.txt");
+
+                        filePointer = fopen(globalPointName1, "w");
+                        fwrite(&globalPointMember1, sizeof(globalPointMember1), 1, filePointer);
+                        fclose(filePointer);
+                        globalPointName1[0] = '\0';
+                        strcpy(globalPointName1, member2.name);
+                        strcat(globalPointName1, "points.txt");
+
+                        filePointer = fopen(globalPointName1, "w");
+                        fwrite(&globalPointMember2, sizeof(globalPointMember2), 1, filePointer);
+                        fclose(filePointer);
+
+                        filePointer = fopen(holdFileName, "w");
+                        fwrite(&save, sizeof(save), 1, filePointer);
+                        fclose(filePointer);
                     }
+                    printf("time 1 = %d and time 2 = %d\n", time1, time2);
                 }
-
-                for (int i = 0; i < 64; i++)
+                if (chooseWinner(array) == 1)
                 {
-                    arraySupport1[i] = array[i].character;
+                    printf("%s won the game", member1.name);
                 }
-                if (counter == 0)
+                if (chooseWinner(array) == 2)
                 {
-                    counter = 1;
+                    printf("%s won the game", member2.name);
                 }
-
-                pointSupporta1 = member1.points;
-                pointSupporta2 = member2.points;
-                index1 = i;
-                if (getnum1(array) == 0)
-                {
-                    i--;
-                    continue;
-                };
-
-                // printarray(array);
-                // printf("%s point is :%d\n", member1.name, member1.points);
-                // printf("%s point is :%d\n", member2.name, member2.points);
+                
             }
-
-            /*o turn*/
-
-            if ((i % 2) == 1)
-            {
-                for (int j = 0; j < 64; j++)
-                {
-                    if (checkb(array, array[j].x, array[j].y) == 1)
-                    {
-                        //         printf("%s you can choose x = %d y = %d block\n",member2.name,array[j].x, array[j].y);
-                        t++;
-                    };
-                }
-                if (t == 0)
-                {
-                    int sentinel2 = 0;
-                    printf("you can't move\n");
-                    extraCounter++;
-                    for (int j = 0; j < 64; j++)
-                    {
-                        if (check(array, array[j].x, array[j].y) == 1)
-                        {
-                            sentinel2++;
-                        }
-                    }
-                    if (sentinel2 == 0)
-                    {
-                        break;
-                    }
-
-                    continue;
-                }
-                if (i >= 2)
-                {
-                    if (counter == 1)
-                    {
-                        if (i > index2)
-                        {
-
-                            int x = 0;
-                            if (turnBackCounterb > 0)
-                            {
-                                printf("%s do you want to go back?", member2.name);
-                                scanf("%d", &x);
-
-                                if (x == 1)
-                                {
-                                    for (int i = 0; i < 64; i++)
-                                    {
-                                        array[i].character = arraySupport2[i];
-                                    }
-                                    member1.points = pointSupportb1;
-                                    member2.points = pointSupportb2;
-                                    // oISupport = i - 2;
-                                    i = index2 - 1;
-                                    turnBackCounterb--;
-                                    counter = 0;
-                                    continue;
-                                }
-                            }
-                        }
-                    }
-                }
-                if (i >= 3)
-                {
-                    if (counter == 1)
-                    {
-                        if (i > index1)
-                        {
-
-                            int x = 0;
-                            if (turnBackCountera > 0)
-                            {
-                                printf("%s do you want to go back?", member1.name);
-                                scanf("%d", &x);
-
-                                if (x == 1)
-                                {
-                                    for (int i = 0; i < 64; i++)
-                                    {
-                                        array[i].character = arraySupport1[i];
-                                    }
-                                    member1.points = pointSupporta1;
-                                    member2.points = pointSupporta2;
-                                    i = index1 - 1;
-                                    turnBackCountera--;
-                                    counter = 0;
-                                    continue;
-                                }
-                            }
-                        }
-                    }
-                }
-                for (int i = 0; i < 64; i++)
-                {
-                    arraySupport2[i] = array[i].character;
-                }
-                pointSupportb1 = member1.points;
-                pointSupportb2 = member2.points;
-                index2 = i;
-                if (counter == 0)
-                {
-                    counter = 1;
-                }
-
-                if (getnum2(array) == 0)
-                {
-                    i--;
-                    continue;
-                };
-            }
-            printf("do you want to save and quit?(yes = 1, no = 0)\n");
-            int quit;
-            scanf("%d", &quit);
-            if (quit == 1)
-            {
-                char holdFileName[50];
-                char holdFIleNameNumber[2];
-                holdFIleNameNumber[0] = '0' + lastFileNUmber + 1;
-                holdFIleNameNumber[1] = '\0';
-                strcpy(holdFileName, member1.name);
-                strcat(holdFileName, member2.name);
-                strcat(holdFileName, "normal");
-                if (lastFileNUmber != 0)
-                {
-                    strcat(holdFileName, holdFIleNameNumber);
-                }
-                strcat(holdFileName, ".txt");
-                printf("%s\n", holdFileName);
-
-                normalSave save;
-                char mainArrayCharacter[64];
-                for (int i = 0; i < 64; i++)
-                {
-                    mainArrayCharacter[i] = array[i].character;
-                }
-                codingChar(mainArrayCharacter, mainArrayCoding);
-                codingChar(arraySupport1, arraySupport1Coding);
-                codingChar(arraySupport2, arraySupport2Coding);
-
-                for (int i = 0; i < 64; i++)
-                {
-                    save.array[i] = mainArrayCoding[i];
-                }
-                strcpy(save.member1, (member1.name));
-                strcpy(save.member2, (member2.name));
-                save.turn = codingNumber(i);
-                save.point1 = codingNumber(member1.points);
-                save.point2 = codingNumber(member2.points);
-                for (int i = 0; i < 64; i++)
-                {
-                    save.arraySupport1[i] = arraySupport1Coding[i];
-                }
-                for (int i = 0; i < 64; i++)
-                {
-                    save.arraySupport2[i] = arraySupport2Coding[i];
-                }
-                save.pointSupporta1 = codingNumber(pointSupporta1);
-                save.pointSupporta2 = codingNumber(pointSupporta2);
-                save.pointSupportb1 = codingNumber(pointSupportb1);
-                save.pointSupportb2 = codingNumber(pointSupportb2);
-                save.turnBackCountera = codingNumber(turnBackCountera);
-                save.turnBackCounterb = codingNumber(turnBackCounterb);
-                save.index1 = codingNumber(index1);
-                save.index2 = codingNumber(index2);
-                save.counter = codingNumber(counter);
-                save.x23 = codingNumber(x23);
-                save.extraCounter = codingNumber(extraCounter);
-                globalPoint readFile;
-
-                // saving global points
-                globalPointMember1.point = member1.points;
-                strcpy(globalPointMember1.name, member1.name);
-                globalPointMember2.point = member2.points;
-                strcpy(globalPointMember2.name, member2.name);
-                char globalPointName1[20];
-
-                globalPointName1[0] = '\0';
-                strcpy(globalPointName1, member1.name);
-                strcat(globalPointName1, "points.txt");
-
-                filePointer = fopen(globalPointName1, "w");
-                fwrite(&globalPointMember1, sizeof(globalPointMember1), 1, filePointer);
-                fclose(filePointer);
-
-                globalPointName1[0] = '\0';
-                strcpy(globalPointName1, member2.name);
-                strcat(globalPointName1, "points.txt");
-
-                filePointer = fopen(globalPointName1, "w");
-                fwrite(&globalPointMember2, sizeof(globalPointMember2), 1, filePointer);
-                fclose(filePointer);
-
-                filePointer = fopen(holdFileName, "w");
-                fwrite(&save, sizeof(save), 1, filePointer);
-                fclose(filePointer);
-            }
+            delay(30);
         }
-
-        if (chooseWinner(array) == 1)
+        if (t == 2)
         {
-            printf("%s won the game", member1.name);
-        }
-        if (chooseWinner(array) == 2)
-        {
-            printf("%s won the game", member2.name);
-        }
-    }
+            scanf("%s", &member1.name);
+            scanf("%s", &member2.name);
+            int lastFileNUmber;
+            lastFileNUmber = prointPreviousGamesNormal(member1.name, member2.name);
+            FILE *filePointer;
+            char globalPointName1[20];
+            globalPoint readFile1;
+            globalPoint readFile2;
+            globalPointName1[0] = '\0';
+            strcpy(globalPointName1, member1.name);
+            strcat(globalPointName1, "points.txt");
+            filePointer = fopen(globalPointName1, "r");
+            fread(&readFile1, sizeof(readFile1), 1, filePointer);
+            fclose(filePointer);
 
-    //*****************************************************************************************************************************************************************
-    //*****************************************************************************************************************************************************************
-    if (t == 3)
-    {
-        printf("\x1b[35mStart a new game in time mode selected\n");
-        printf("player 1 please enter your name\n");
-        printf("\x1b[0m");
-        scanf("%s", &member1.name);
-        printf("\x1b[35mplayer 2 please enter your name\n");
-        printf("\x1b[0m");
-        scanf("%s", &member2.name);
-        int lastFileNUmber;
-        lastFileNUmber = prointPreviousGames(member1.name, member2.name);
-        char holdFileName[50];
-        // forchecking the past games
-        char holdIsIt1[50];
-        char holdIsIt2[50];
-        /////////////////////
-        strcpy(holdFileName, member1.name);
-        strcat(holdFileName, member2.name);
-        strcat(holdFileName, ".txt");
-        FILE *filePointer;
-        saveFile save;
-        filePointer = fopen(holdFileName, "r");
-        fread(&save, sizeof(save), 1, filePointer);
-        fclose(filePointer);
-
-        // global points
-        char globalPointName1[20];
-        globalPoint readFile1;
-        globalPoint readFile2;
-        globalPointName1[0] = '\0';
-        strcpy(globalPointName1, member1.name);
-        strcat(globalPointName1, "points.txt");
-        filePointer = fopen(globalPointName1, "r");
-        fread(&readFile1, sizeof(readFile1), 1, filePointer);
-        fclose(filePointer);
-
-        globalPointName1[0] = '\0';
-        strcpy(globalPointName1, member2.name);
-        strcat(globalPointName1, "points.txt");
-        filePointer = fopen(globalPointName1, "r");
-        fread(&readFile2, sizeof(readFile2), 1, filePointer);
-        fclose(filePointer);
-        char arraySupport1[64];
-        char arraySupport2[64];
-        int pointSupporta1;
-        int pointSupporta2;
-        int pointSupportb1;
-        int pointSupportb2;
-        int turnBackCountera = 2;
-        int turnBackCounterb = 2;
-        int index1 = 0;
-        int index2 = 0;
-        int counter = 0;
-        int x23;
-        int extraCounter = 0;
-        int extraTime1a;
-        int extraTime1b;
-        int extraTime1Counter = 0;
-        int extraTime1Countersu = 0;
-        int extraTime2a;
-        int extraTime2b;
-        int extraTime2Counter = 0;
-        int extraTime2Countersu = 0;
-        strcpy(holdIsIt1, member1.name);
-        strcat(holdIsIt1, member2.name);
-        strcpy(holdIsIt2, save.member1);
-        strcat(holdIsIt2, save.member2);
-        int startI;
-        // values for coding and decoding
-        char mainArrayCoding[64];
-        char arraySupport1Coding[64];
-        char arraySupport2Coding[64];
-        char mainArrayDecoding[64];
-        char arraySupport1Decoding[64];
-        char arraySupport2Decoding[64];
-        if (strcmp(readFile1.name, member1.name) == 0)
-        {
-            member1.points = readFile1.point;
-        }
-        else
-        {
-            member1.points = 0;
-        }
-        if (strcmp(readFile2.name, member2.name) == 0)
-        {
-            member2.points = readFile2.point;
-        }
-        else
-        {
-            member2.points = 0;
-        }
-
-        firstvaluesNotSave(array);
-        startI = 0;
-        // for turning back
-
-        clock_t start, end;
-        for (int i = startI; i < 64 + extraCounter; i++)
-        {
-            if ((turnBackCountera == 0) && (i == index1))
+            globalPointName1[0] = '\0';
+            strcpy(globalPointName1, member2.name);
+            strcat(globalPointName1, "points.txt");
+            filePointer = fopen(globalPointName1, "r");
+            fread(&readFile2, sizeof(readFile2), 1, filePointer);
+            fclose(filePointer);
+            if (strcmp(readFile1.name, member1.name) == 0)
             {
-                extraTime1Counter++;
-                extraTime1Countersu = 1;
-                turnBackCountera = -1; /*for avoiding to enter again in this if*/
+                member1.points = readFile1.point;
             }
-            if ((i == index1 + 1) && (extraTime1Counter == 1))
+            else
             {
-                extraTime1Counter++;
-                extraTime1Countersu = 1;
-                extraTime1Counter = 0;
+                member1.points = 0;
             }
-
-            if ((turnBackCounterb == 0) && (i == index2))
+            if (strcmp(readFile2.name, member2.name) == 0)
             {
-                extraTime2Counter++;
-                extraTime2Countersu = 1;
-                turnBackCounterb = -1; /*for avoiding to enter again in this if*/
+                member2.points = readFile2.point;
             }
-            if ((i == index2 + 1) && (extraTime2Counter == 1))
+            else
             {
-                extraTime2Counter++;
-                extraTime2Countersu = 1;
-                extraTime2Counter = 0;
+                member2.points = 0;
             }
+            // values for coding and decoding
+            char mainArrayCoding[64];
+            char arraySupport1Coding[64];
+            char arraySupport2Coding[64];
+            char mainArrayDecoding[64];
+            char arraySupport1Decoding[64];
+            char arraySupport2Decoding[64];
 
-            printarray(array);
-            printf("i = %d\n", i);
-            start = clock();
-            int t = 0;
-            if ((i % 2) == 0)
-            {
-                for (int j = 0; j < 64; j++)
-                {
-                    if (check(array, array[j].x, array[j].y) == 1)
-                    {
-                        t++;
-                    };
-                }
-
-                if (t == 0)
-                {
-                    int sentinel1 = 0;
-                    printf("you can't move ff\n");
-                    extraCounter++;
-                    for (int j = 0; j < 64; j++)
-                    {
-                        if (checkb(array, array[j].x, array[j].y) == 1)
-                        {
-                            sentinel1++;
-                        }
-                    }
-                    if (sentinel1 == 0)
-                    {
-                        break;
-                    }
-
-                    continue;
-                }
-                if (i >= 2)
-                {
-                    if (counter == 1)
-                    {
-                        if (i > index1)
-                        {
-                            int x = 0;
-                            if (turnBackCountera > 0)
-                            {
-
-                                printf("%s do you want to go back?", member1.name);
-                                scanf("%d", &x);
-                                if (x == 1)
-                                {
-                                    if (turnBackCountera == 2)
-                                    {
-                                        time1 -= 30;
-                                    }
-                                    if (turnBackCountera)
-                                    {
-                                        time1 -= 60;
-                                    }
-                                    for (int i = 0; i < 64; i++)
-                                    {
-                                        array[i].character = arraySupport1[i];
-                                    }
-                                    member1.points = pointSupporta1;
-                                    member2.points = pointSupporta2;
-                                    i = index1 - 1;
-                                    turnBackCountera--;
-                                    counter = 0;
-                                    continue;
-                                }
-                            }
-                        }
-                    }
-                }
-                if (i >= 2)
-                {
-                    if (counter == 1)
-                    {
-                        if (i > index2)
-                        {
-                            int x = 0;
-                            if (turnBackCounterb > 0)
-                            {
-                                printf("%s do you want to go back?", member2.name);
-                                scanf("%d", &x);
-                                if (x == 1)
-                                {
-                                    if (turnBackCounterb == 2)
-                                    {
-                                        time2 -= 30;
-                                    }
-                                    if (turnBackCounterb == 1)
-                                    {
-                                        time2 -= 60;
-                                    }
-
-                                    for (int i = 0; i < 64; i++)
-                                    {
-                                        array[i].character = arraySupport2[i];
-                                    }
-                                    member1.points = pointSupportb1;
-                                    member2.points = pointSupportb2;
-                                    i = index2 - 1;
-                                    turnBackCounterb--;
-                                    counter = 0;
-                                    continue;
-                                }
-                            }
-                        }
-                    }
-                }
-                for (int i = 0; i < 64; i++)
-                {
-                    arraySupport1[i] = array[i].character;
-                }
-                if (counter == 0)
-                {
-                    counter = 1;
-                }
-
-                pointSupporta1 = member1.points;
-                pointSupporta2 = member2.points;
-                index1 = i;
-
-                if (getnum1(array) == 0)
-                {
-                    end = clock();
-                    int reduce = (end - start) / CLOCKS_PER_SEC;
-                    time1 -= reduce;
-                    printf("time 1 = %d\n", time1);
-                    i--;
-                    continue;
-                };
-                end = clock();
-                int reduce = (end - start) / CLOCKS_PER_SEC;
-                time1 -= reduce;
-                printf("player one reduce = %d\n");
-                if (extraTime1Countersu == 1)
-                {
-                    printf("%d added to time2", reduce);
-                    time2 += reduce;
-                    extraTime1Countersu = 0;
-                }
-                if (extraTime2Countersu == 1)
-                {
-                    printf("%d added to time1\n", reduce);
-                    time1 += reduce;
-                    extraTime2Countersu = 0;
-                }
-
-                if (time1 < 0)
-                {
-                    printf("player one you lost the time\nplayer 2 won the game");
-                    break;
-                }
-            }
-            if ((i % 2) == 1)
-            {
-
-                for (int j = 0; j < 64; j++)
-                {
-                    if (checkb(array, array[j].x, array[j].y) == 1)
-                    {
-                        t++;
-                    };
-                }
-                printf("t = %d\n");
-                if (t == 0)
-                {
-                    int sentinel2 = 0;
-                    printf("you can't move \n");
-                    extraCounter++;
-                    for (int j = 0; j < 64; j++)
-                    {
-                        if (check(array, array[j].x, array[j].y) == 1)
-                        {
-                            sentinel2++;
-                        }
-                    }
-                    if (sentinel2 == 0)
-                    {
-                        break;
-                    }
-
-                    continue;
-                }
-                if (i >= 2)
-                {
-                    if (counter == 1)
-                    {
-                        if (i > index2)
-                        {
-
-                            int x = 0;
-                            if (turnBackCounterb > 0)
-                            {
-                                printf("%s do you want to go back?", member2.name);
-                                scanf("%d", &x);
-
-                                if (x == 1)
-                                {
-                                    if (turnBackCounterb == 2)
-                                    {
-                                        time2 -= 30;
-                                    }
-                                    if (turnBackCounterb == 1)
-                                    {
-                                        time2 -= 60;
-                                    }
-
-                                    for (int i = 0; i < 64; i++)
-                                    {
-                                        array[i].character = arraySupport2[i];
-                                    }
-                                    member1.points = pointSupportb1;
-                                    member2.points = pointSupportb2;
-                                    i = index2 - 1;
-                                    turnBackCounterb--;
-                                    counter = 0;
-                                    continue;
-                                }
-                            }
-                        }
-                    }
-                }
-                if (i >= 3)
-                {
-                    if (counter == 1)
-                    {
-                        if (i > index1)
-                        {
-
-                            int x = 0;
-                            if (turnBackCountera > 0)
-                            {
-                                printf("%s do you want to go back?", member1.name);
-                                scanf("%d", &x);
-
-                                if (x == 1)
-                                {
-                                    if (turnBackCountera == 2)
-                                    {
-                                        time1 -= 30;
-                                    }
-                                    if (turnBackCountera == 1)
-                                    {
-                                        time1 -= 60;
-                                    }
-
-                                    for (int i = 0; i < 64; i++)
-                                    {
-                                        array[i].character = arraySupport1[i];
-                                    }
-                                    member1.points = pointSupporta1;
-                                    member2.points = pointSupporta2;
-                                    i = index1 - 1;
-                                    turnBackCountera--;
-                                    counter = 0;
-                                    continue;
-                                }
-                            }
-                        }
-                    }
-                }
-                for (int i = 0; i < 64; i++)
-                {
-                    arraySupport2[i] = array[i].character;
-                }
-                pointSupportb1 = member1.points;
-                pointSupportb2 = member2.points;
-                index2 = i;
-                if (counter == 0)
-                {
-                    counter = 1;
-                }
-
-                if (getnum2(array) == 0)
-                {
-                    i--;
-                    continue;
-                };
-                end = clock();
-                int reduce = (end - start) / CLOCKS_PER_SEC;
-                time2 -= reduce;
-                printf("player two reduce = %d\n");
-                if (extraTime1Countersu == 1)
-                {
-                    printf("%d added to time2", reduce);
-                    time2 += reduce;
-                    extraTime1Countersu = 0;
-                }
-                if (extraTime2Countersu == 1)
-                {
-                    printf("%d added to time1", reduce);
-                    time1 += reduce;
-                    extraTime2Countersu = 0;
-                }
-
-                if (time2 < 0)
-                {
-                    printf("player two you lost the time\nplayer 1 won thegame");
-                    break;
-                }
-            }
-            printf("do you want to save the game and quit?(yes = 1/no = 0)\n");
-            int saveCheck;
-            scanf("%d", &saveCheck);
-            if (saveCheck == 1)
-            {
-
-                char holdFileName[50];
-                char holdFIleNameNumber[2];
-
-                holdFIleNameNumber[0] = '0' + lastFileNUmber + 1;
-                holdFIleNameNumber[1] = '\0';
-                strcpy(holdFileName, member1.name);
-                strcat(holdFileName, member2.name);
-                if (lastFileNUmber != 0)
-                {
-                    strcat(holdFileName, holdFIleNameNumber);
-                }
-                strcat(holdFileName, ".txt");
-                printf("%s\n", holdFileName);
-
-                char mainArrayCharacter[64];
-                for (int i = 0; i < 64; i++)
-                {
-                    mainArrayCharacter[i] = array[i].character;
-                }
-                codingChar(mainArrayCharacter, mainArrayCoding);
-                codingChar(arraySupport1, arraySupport1Coding);
-                codingChar(arraySupport2, arraySupport2Coding);
-
-                for (int i = 0; i < 64; i++)
-                {
-                    save.array[i] = mainArrayCoding[i];
-                }
-                strcpy(save.member1, (member1.name));
-                strcpy(save.member2, (member2.name));
-                save.time1 = (time1);
-                save.time2 = (time2);
-                save.turn = codingNumber(i);
-                save.point1 = codingNumber(member1.points);
-                save.point2 = codingNumber(member2.points);
-                for (int i = 0; i < 64; i++)
-                {
-                    save.arraySupport1[i] = arraySupport1Coding[i];
-                }
-                for (int i = 0; i < 64; i++)
-                {
-                    save.arraySupport2[i] = arraySupport2Coding[i];
-                }
-                save.pointSupporta1 = codingNumber(pointSupporta1);
-                save.pointSupporta2 = codingNumber(pointSupporta2);
-                save.pointSupportb1 = codingNumber(pointSupportb1);
-                save.pointSupportb2 = codingNumber(pointSupportb2);
-                save.turnBackCountera = codingNumber(turnBackCountera);
-                save.turnBackCounterb = codingNumber(turnBackCounterb);
-                save.index1 = codingNumber(index1);
-                save.index2 = codingNumber(index2);
-                save.counter = codingNumber(counter);
-                save.x23 = codingNumber(x23);
-                save.extraCounter = codingNumber(extraCounter);
-                save.extraTime1a = codingNumber(extraTime1a);
-                save.extraTime1b = codingNumber(extraTime1b);
-                save.extraTime1Counter = codingNumber(extraTime1Counter);
-                save.extraTime1Countersu = codingNumber(extraTime1Countersu);
-                save.extraTime2a = codingNumber(extraTime2a);
-                save.extraTime2b = codingNumber(extraTime2b);
-                save.extraTime2Counter = codingNumber(extraTime2Counter);
-                save.extraTime2Countersu = codingNumber(extraTime2Countersu);
-
-                globalPoint readFile;
-
-                // saving global points
-                globalPointMember1.point = member1.points;
-                strcpy(globalPointMember1.name, member1.name);
-                globalPointMember2.point = member2.points;
-                strcpy(globalPointMember2.name, member2.name);
-                char globalPointName1[20];
-
-                globalPointName1[0] = '\0';
-                strcpy(globalPointName1, member1.name);
-                strcat(globalPointName1, "points.txt");
-
-                filePointer = fopen(globalPointName1, "w");
-                fwrite(&globalPointMember1, sizeof(globalPointMember1), 1, filePointer);
-                fclose(filePointer);
-
-                globalPointName1[0] = '\0';
-                strcpy(globalPointName1, member2.name);
-                strcat(globalPointName1, "points.txt");
-
-                filePointer = fopen(globalPointName1, "w");
-                fwrite(&globalPointMember2, sizeof(globalPointMember2), 1, filePointer);
-                fclose(filePointer);
-                filePointer = fopen(holdFileName, "w");
-                fwrite(&save, sizeof(save), 1, filePointer);
-                fclose(filePointer);
-            }
-            printf("time 1 = %d and time 2 = %d\n", time1, time2);
-        }
-        if (chooseWinner(array) == 1)
-        {
-            printf("%s won the game", member1.name);
-        }
-        if (chooseWinner(array) == 2)
-        {
-            printf("%s won the game", member2.name);
-        }
-    }
-
-    /*resume normal mode*/
-    if (t == 4)
-    {
-        scanf("%s", &member1.name);
-        scanf("%s", &member2.name);
-        int lastFileNUmber;
-        lastFileNUmber = prointPreviousGamesNormal(member1.name, member2.name);
-        char holdFileName[50];
-        // forchecking the past games
-        char holdIsIt1[50] = {'\0'};
-        char holdIsIt2[50] = {'\0'};
-        printf("which game do you want to continue?\n");
-        // Enter which game do you want to resume...
-        scanf("%s", holdFileName);
-        FILE *filePointer;
-        char globalPointName1[20];
-        globalPoint readFile1;
-        globalPoint readFile2;
-        globalPointName1[0] = '\0';
-        strcpy(globalPointName1, member1.name);
-        strcat(globalPointName1, "points.txt");
-        filePointer = fopen(globalPointName1, "r");
-        fread(&readFile1, sizeof(readFile1), 1, filePointer);
-        fclose(filePointer);
-
-        globalPointName1[0] = '\0';
-        strcpy(globalPointName1, member2.name);
-        strcat(globalPointName1, "points.txt");
-        filePointer = fopen(globalPointName1, "r");
-        fread(&readFile2, sizeof(readFile2), 1, filePointer);
-        fclose(filePointer);
-        // opening the save file
-        normalSave save;
-        filePointer = fopen(holdFileName, "r");
-        fread(&save, sizeof(save), 1, filePointer);
-        fclose(filePointer);
-        //////////////////
-        member1.points = readFile1.point;
-        member2.points = readFile2.point;
-        strcpy(holdIsIt1, member1.name);
-        strcat(holdIsIt1, member2.name);
-        strcpy(holdIsIt2, save.member1);
-        strcat(holdIsIt2, save.member2);
-        int startI;
-        // values for coding and decoding
-        char mainArrayCoding[64];
-        char arraySupport1Coding[64];
-        char arraySupport2Coding[64];
-        char mainArrayDecoding[64];
-        char arraySupport1Decoding[64];
-        char arraySupport2Decoding[64];
-
-        char arraySupport1[64];
-        char arraySupport2[64];
-        int pointSupporta1;
-        int pointSupporta2;
-        int pointSupportb1;
-        int pointSupportb2;
-        // firstvaluesSave(array);
-        int turnBackCountera = 2;
-        int turnBackCounterb = 2;
-        int index1 = 0;
-        int index2 = 0;
-        int counter = 0;
-        int x23;
-        int extraCounter = 0;
-        if (strcmp(holdIsIt1, holdIsIt2) == 0)
-        {
-
-            // decoding
-            startI = decodingNumber(save.turn) + 1;
-            member1.points = readFile1.point;
-            member2.points = readFile2.point;
-            decodingChar(save.array, mainArrayDecoding);
-            decodingChar(save.arraySupport1, arraySupport1Decoding);
-            decodingChar(save.arraySupport2, arraySupport2Decoding);
-            for (int i = 0; i < 64; i++)
-            {
-                array[i].character = mainArrayDecoding[i];
-            }
-            firstvaluesSave(array);
-            for (int i = 0; i < 64; i++)
-            {
-                arraySupport1[i] = arraySupport1Decoding[i];
-            }
-            printf("\n");
-            for (int i = 0; i < 64; i++)
-            {
-                arraySupport2[i] = arraySupport2Decoding[i];
-            }
-            printf("\n");
-
-            pointSupporta1 = readFile1.point + decodingNumber(save.pointSupporta1) - member1.points;
-            pointSupporta2 = readFile2.point + decodingNumber(save.pointSupporta2) - member2.points;
-            pointSupportb1 = readFile1.point + decodingNumber(save.pointSupportb1) - member1.points;
-            pointSupportb2 = readFile2.point + decodingNumber(save.pointSupportb2) - member2.points;
-            printf("%d %d %d %d\n", pointSupporta1, pointSupporta2, pointSupportb1, pointSupportb2);
-            turnBackCountera = decodingNumber(save.turnBackCountera);
-            turnBackCounterb = decodingNumber(save.turnBackCounterb);
-            index1 = decodingNumber(save.index1);
-            index2 = decodingNumber(save.index2);
-            counter = decodingNumber(save.counter);
-            x23 = decodingNumber(save.x23);
-            extraCounter = decodingNumber(save.extraCounter);
-            printf("index 1 = %d , index 2 = %d\n",index1 ,index2);
-            for (int i = startI; i < 60 + extraCounter; i++)
+            char arraySupport1[64];
+            char arraySupport2[64];
+            int pointSupporta1;
+            int pointSupporta2;
+            int pointSupportb1;
+            int pointSupportb2;
+            firstvaluesNotSave(array);
+            int turnBackCountera = 2;
+            int turnBackCounterb = 2;
+            int index1 = 0;
+            int index2 = 0;
+            int counter = 0;
+            int x23;
+            int extraCounter = 0;
+            for (int i = 0; i < (60 + extraCounter); i++)
             {
                 printarray(array);
                 printf("i = %d\n", i);
@@ -3352,7 +2398,7 @@ int main()
                     strcpy(holdFileName, member1.name);
                     strcat(holdFileName, member2.name);
                     strcat(holdFileName, "normal");
-                    if (lastFileNUmber != 0)
+                    if (lastFileNUmber != -1)
                     {
                         strcat(holdFileName, holdFIleNameNumber);
                     }
@@ -3436,8 +2482,968 @@ int main()
             {
                 printf("%s won the game", member2.name);
             }
+            delay(30);
+        }
+
+        //*****************************************************************************************************************************************************************
+        //*****************************************************************************************************************************************************************
+        if (t == 3)
+        {
+            printf("\x1b[35mStart a new game in time mode selected\n");
+            printf("player 1 please enter your name\n");
+            printf("\x1b[0m");
+            scanf("%s", &member1.name);
+            printf("\x1b[35mplayer 2 please enter your name\n");
+            printf("\x1b[0m");
+            scanf("%s", &member2.name);
+            int lastFileNUmber;
+            lastFileNUmber = prointPreviousGames(member1.name, member2.name);
+            char holdFileName[50];
+            // forchecking the past games
+            char holdIsIt1[50];
+            char holdIsIt2[50];
+            /////////////////////
+            strcpy(holdFileName, member1.name);
+            strcat(holdFileName, member2.name);
+            strcat(holdFileName, ".txt");
+            FILE *filePointer;
+            saveFile save;
+            filePointer = fopen(holdFileName, "r");
+            fread(&save, sizeof(save), 1, filePointer);
+            fclose(filePointer);
+
+            // global points
+            char globalPointName1[20];
+            globalPoint readFile1;
+            globalPoint readFile2;
+            globalPointName1[0] = '\0';
+            strcpy(globalPointName1, member1.name);
+            strcat(globalPointName1, "points.txt");
+            filePointer = fopen(globalPointName1, "r");
+            fread(&readFile1, sizeof(readFile1), 1, filePointer);
+            fclose(filePointer);
+
+            globalPointName1[0] = '\0';
+            strcpy(globalPointName1, member2.name);
+            strcat(globalPointName1, "points.txt");
+            filePointer = fopen(globalPointName1, "r");
+            fread(&readFile2, sizeof(readFile2), 1, filePointer);
+            fclose(filePointer);
+            char arraySupport1[64];
+            char arraySupport2[64];
+            int pointSupporta1;
+            int pointSupporta2;
+            int pointSupportb1;
+            int pointSupportb2;
+            int turnBackCountera = 2;
+            int turnBackCounterb = 2;
+            int index1 = 0;
+            int index2 = 0;
+            int counter = 0;
+            int x23;
+            int extraCounter = 0;
+            int extraTime1a;
+            int extraTime1b;
+            int extraTime1Counter = 0;
+            int extraTime1Countersu = 0;
+            int extraTime2a;
+            int extraTime2b;
+            int extraTime2Counter = 0;
+            int extraTime2Countersu = 0;
+            strcpy(holdIsIt1, member1.name);
+            strcat(holdIsIt1, member2.name);
+            strcpy(holdIsIt2, save.member1);
+            strcat(holdIsIt2, save.member2);
+            int startI;
+            // values for coding and decoding
+            char mainArrayCoding[64];
+            char arraySupport1Coding[64];
+            char arraySupport2Coding[64];
+            char mainArrayDecoding[64];
+            char arraySupport1Decoding[64];
+            char arraySupport2Decoding[64];
+            if (strcmp(readFile1.name, member1.name) == 0)
+            {
+                member1.points = readFile1.point;
+            }
+            else
+            {
+                member1.points = 0;
+            }
+            if (strcmp(readFile2.name, member2.name) == 0)
+            {
+                member2.points = readFile2.point;
+            }
+            else
+            {
+                member2.points = 0;
+            }
+
+            firstvaluesNotSave(array);
+            startI = 0;
+            // for turning back
+
+            clock_t start, end;
+            for (int i = startI; i < (60 + extraCounter); i++)
+            {
+                if ((turnBackCountera == 0) && (i == index1))
+                {
+                    extraTime1Counter++;
+                    extraTime1Countersu = 1;
+                    turnBackCountera = -1; /*for avoiding to enter again in this if*/
+                }
+                if ((i == index1 + 1) && (extraTime1Counter == 1))
+                {
+                    extraTime1Counter++;
+                    extraTime1Countersu = 1;
+                    extraTime1Counter = 0;
+                }
+
+                if ((turnBackCounterb == 0) && (i == index2))
+                {
+                    extraTime2Counter++;
+                    extraTime2Countersu = 1;
+                    turnBackCounterb = -1; /*for avoiding to enter again in this if*/
+                }
+                if ((i == index2 + 1) && (extraTime2Counter == 1))
+                {
+                    extraTime2Counter++;
+                    extraTime2Countersu = 1;
+                    extraTime2Counter = 0;
+                }
+
+                printarray(array);
+                printf("i = %d\n", i);
+                start = clock();
+                int t = 0;
+                if ((i % 2) == 0)
+                {
+                    for (int j = 0; j < 64; j++)
+                    {
+                        if (check(array, array[j].x, array[j].y) == 1)
+                        {
+                            t++;
+                        };
+                    }
+
+                    if (t == 0)
+                    {
+                        int sentinel1 = 0;
+                        printf("you can't move ff\n");
+                        extraCounter++;
+                        for (int j = 0; j < 64; j++)
+                        {
+                            if (checkb(array, array[j].x, array[j].y) == 1)
+                            {
+                                sentinel1++;
+                            }
+                        }
+                        if (sentinel1 == 0)
+                        {
+                            break;
+                        }
+
+                        continue;
+                    }
+                    if (i >= 2)
+                    {
+                        if (counter == 1)
+                        {
+                            if (i > index1)
+                            {
+                                int x = 0;
+                                if (turnBackCountera > 0)
+                                {
+
+                                    printf("%s do you want to go back?", member1.name);
+                                    scanf("%d", &x);
+                                    if (x == 1)
+                                    {
+                                        if (turnBackCountera == 2)
+                                        {
+                                            time1 -= 30;
+                                        }
+                                        if (turnBackCountera)
+                                        {
+                                            time1 -= 60;
+                                        }
+                                        for (int i = 0; i < 64; i++)
+                                        {
+                                            array[i].character = arraySupport1[i];
+                                        }
+                                        member1.points = pointSupporta1;
+                                        member2.points = pointSupporta2;
+                                        i = index1 - 1;
+                                        turnBackCountera--;
+                                        counter = 0;
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (i >= 2)
+                    {
+                        if (counter == 1)
+                        {
+                            if (i > index2)
+                            {
+                                int x = 0;
+                                if (turnBackCounterb > 0)
+                                {
+                                    printf("%s do you want to go back?", member2.name);
+                                    scanf("%d", &x);
+                                    if (x == 1)
+                                    {
+                                        if (turnBackCounterb == 2)
+                                        {
+                                            time2 -= 30;
+                                        }
+                                        if (turnBackCounterb == 1)
+                                        {
+                                            time2 -= 60;
+                                        }
+
+                                        for (int i = 0; i < 64; i++)
+                                        {
+                                            array[i].character = arraySupport2[i];
+                                        }
+                                        member1.points = pointSupportb1;
+                                        member2.points = pointSupportb2;
+                                        i = index2 - 1;
+                                        turnBackCounterb--;
+                                        counter = 0;
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    for (int i = 0; i < 64; i++)
+                    {
+                        arraySupport1[i] = array[i].character;
+                    }
+                    if (counter == 0)
+                    {
+                        counter = 1;
+                    }
+
+                    pointSupporta1 = member1.points;
+                    pointSupporta2 = member2.points;
+                    index1 = i;
+
+                    if (getnum1(array) == 0)
+                    {
+                        end = clock();
+                        int reduce = (end - start) / CLOCKS_PER_SEC;
+                        time1 -= reduce;
+                        printf("time 1 = %d\n", time1);
+                        i--;
+                        continue;
+                    };
+                    end = clock();
+                    int reduce = (end - start) / CLOCKS_PER_SEC;
+                    time1 -= reduce;
+                    printf("player one reduce = %d\n");
+                    if (extraTime1Countersu == 1)
+                    {
+                        printf("%d added to time2", reduce);
+                        time2 += reduce;
+                        extraTime1Countersu = 0;
+                    }
+                    if (extraTime2Countersu == 1)
+                    {
+                        printf("%d added to time1\n", reduce);
+                        time1 += reduce;
+                        extraTime2Countersu = 0;
+                    }
+
+                    if (time1 < 0)
+                    {
+                        printf("player one you lost the time\nplayer 2 won the game");
+                        break;
+                    }
+                }
+                if ((i % 2) == 1)
+                {
+
+                    for (int j = 0; j < 64; j++)
+                    {
+                        if (checkb(array, array[j].x, array[j].y) == 1)
+                        {
+                            t++;
+                        };
+                    }
+                    printf("t = %d\n");
+                    if (t == 0)
+                    {
+                        int sentinel2 = 0;
+                        printf("you can't move \n");
+                        extraCounter++;
+                        for (int j = 0; j < 64; j++)
+                        {
+                            if (check(array, array[j].x, array[j].y) == 1)
+                            {
+                                sentinel2++;
+                            }
+                        }
+                        if (sentinel2 == 0)
+                        {
+                            break;
+                        }
+
+                        continue;
+                    }
+                    if (i >= 2)
+                    {
+                        if (counter == 1)
+                        {
+                            if (i > index2)
+                            {
+
+                                int x = 0;
+                                if (turnBackCounterb > 0)
+                                {
+                                    printf("%s do you want to go back?", member2.name);
+                                    scanf("%d", &x);
+
+                                    if (x == 1)
+                                    {
+                                        if (turnBackCounterb == 2)
+                                        {
+                                            time2 -= 30;
+                                        }
+                                        if (turnBackCounterb == 1)
+                                        {
+                                            time2 -= 60;
+                                        }
+
+                                        for (int i = 0; i < 64; i++)
+                                        {
+                                            array[i].character = arraySupport2[i];
+                                        }
+                                        member1.points = pointSupportb1;
+                                        member2.points = pointSupportb2;
+                                        i = index2 - 1;
+                                        turnBackCounterb--;
+                                        counter = 0;
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (i >= 3)
+                    {
+                        if (counter == 1)
+                        {
+                            if (i > index1)
+                            {
+
+                                int x = 0;
+                                if (turnBackCountera > 0)
+                                {
+                                    printf("%s do you want to go back?", member1.name);
+                                    scanf("%d", &x);
+
+                                    if (x == 1)
+                                    {
+                                        if (turnBackCountera == 2)
+                                        {
+                                            time1 -= 30;
+                                        }
+                                        if (turnBackCountera == 1)
+                                        {
+                                            time1 -= 60;
+                                        }
+
+                                        for (int i = 0; i < 64; i++)
+                                        {
+                                            array[i].character = arraySupport1[i];
+                                        }
+                                        member1.points = pointSupporta1;
+                                        member2.points = pointSupporta2;
+                                        i = index1 - 1;
+                                        turnBackCountera--;
+                                        counter = 0;
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    for (int i = 0; i < 64; i++)
+                    {
+                        arraySupport2[i] = array[i].character;
+                    }
+                    pointSupportb1 = member1.points;
+                    pointSupportb2 = member2.points;
+                    index2 = i;
+                    if (counter == 0)
+                    {
+                        counter = 1;
+                    }
+
+                    if (getnum2(array) == 0)
+                    {
+                        i--;
+                        continue;
+                    };
+                    end = clock();
+                    int reduce = (end - start) / CLOCKS_PER_SEC;
+                    time2 -= reduce;
+                    printf("player two reduce = %d\n");
+                    if (extraTime1Countersu == 1)
+                    {
+                        printf("%d added to time2", reduce);
+                        time2 += reduce;
+                        extraTime1Countersu = 0;
+                    }
+                    if (extraTime2Countersu == 1)
+                    {
+                        printf("%d added to time1", reduce);
+                        time1 += reduce;
+                        extraTime2Countersu = 0;
+                    }
+
+                    if (time2 < 0)
+                    {
+                        printf("player two you lost the time\nplayer 1 won thegame");
+                        break;
+                    }
+                }
+                printf("do you want to save the game and quit?(yes = 1/no = 0)\n");
+                int saveCheck;
+                scanf("%d", &saveCheck);
+                if (saveCheck == 1)
+                {
+
+                    char holdFileName[50];
+                    char holdFIleNameNumber[2];
+
+                    holdFIleNameNumber[0] = '0' + lastFileNUmber + 1;
+                    holdFIleNameNumber[1] = '\0';
+                    strcpy(holdFileName, member1.name);
+                    strcat(holdFileName, member2.name);
+                    if (lastFileNUmber != -1)
+                    {
+                        strcat(holdFileName, holdFIleNameNumber);
+                    }
+                    strcat(holdFileName, ".txt");
+                    printf("%s\n", holdFileName);
+
+                    char mainArrayCharacter[64];
+                    for (int i = 0; i < 64; i++)
+                    {
+                        mainArrayCharacter[i] = array[i].character;
+                    }
+                    codingChar(mainArrayCharacter, mainArrayCoding);
+                    codingChar(arraySupport1, arraySupport1Coding);
+                    codingChar(arraySupport2, arraySupport2Coding);
+
+                    for (int i = 0; i < 64; i++)
+                    {
+                        save.array[i] = mainArrayCoding[i];
+                    }
+                    strcpy(save.member1, (member1.name));
+                    strcpy(save.member2, (member2.name));
+                    save.time1 = (time1);
+                    save.time2 = (time2);
+                    save.turn = codingNumber(i);
+                    save.point1 = codingNumber(member1.points);
+                    save.point2 = codingNumber(member2.points);
+                    for (int i = 0; i < 64; i++)
+                    {
+                        save.arraySupport1[i] = arraySupport1Coding[i];
+                    }
+                    for (int i = 0; i < 64; i++)
+                    {
+                        save.arraySupport2[i] = arraySupport2Coding[i];
+                    }
+                    save.pointSupporta1 = codingNumber(pointSupporta1);
+                    save.pointSupporta2 = codingNumber(pointSupporta2);
+                    save.pointSupportb1 = codingNumber(pointSupportb1);
+                    save.pointSupportb2 = codingNumber(pointSupportb2);
+                    save.turnBackCountera = codingNumber(turnBackCountera);
+                    save.turnBackCounterb = codingNumber(turnBackCounterb);
+                    save.index1 = codingNumber(index1);
+                    save.index2 = codingNumber(index2);
+                    save.counter = codingNumber(counter);
+                    save.x23 = codingNumber(x23);
+                    save.extraCounter = codingNumber(extraCounter);
+                    save.extraTime1a = codingNumber(extraTime1a);
+                    save.extraTime1b = codingNumber(extraTime1b);
+                    save.extraTime1Counter = codingNumber(extraTime1Counter);
+                    save.extraTime1Countersu = codingNumber(extraTime1Countersu);
+                    save.extraTime2a = codingNumber(extraTime2a);
+                    save.extraTime2b = codingNumber(extraTime2b);
+                    save.extraTime2Counter = codingNumber(extraTime2Counter);
+                    save.extraTime2Countersu = codingNumber(extraTime2Countersu);
+
+                    globalPoint readFile;
+
+                    // saving global points
+                    globalPointMember1.point = member1.points;
+                    strcpy(globalPointMember1.name, member1.name);
+                    globalPointMember2.point = member2.points;
+                    strcpy(globalPointMember2.name, member2.name);
+                    char globalPointName1[20];
+
+                    globalPointName1[0] = '\0';
+                    strcpy(globalPointName1, member1.name);
+                    strcat(globalPointName1, "points.txt");
+
+                    filePointer = fopen(globalPointName1, "w");
+                    fwrite(&globalPointMember1, sizeof(globalPointMember1), 1, filePointer);
+                    fclose(filePointer);
+
+                    globalPointName1[0] = '\0';
+                    strcpy(globalPointName1, member2.name);
+                    strcat(globalPointName1, "points.txt");
+
+                    filePointer = fopen(globalPointName1, "w");
+                    fwrite(&globalPointMember2, sizeof(globalPointMember2), 1, filePointer);
+                    fclose(filePointer);
+                    filePointer = fopen(holdFileName, "w");
+                    fwrite(&save, sizeof(save), 1, filePointer);
+                    fclose(filePointer);
+                }
+                printf("time 1 = %d and time 2 = %d\n", time1, time2);
+            }
+            if (chooseWinner(array) == 1)
+            {
+                printf("%s won the game", member1.name);
+            }
+            if (chooseWinner(array) == 2)
+            {
+                printf("%s won the game", member2.name);
+            }
+            delay(30);
+        }
+
+        /*resume normal mode*/
+        if (t == 4)
+        {
+            scanf("%s", &member1.name);
+            scanf("%s", &member2.name);
+            int lastFileNUmber;
+            lastFileNUmber = prointPreviousGamesNormal(member1.name, member2.name);
+            char holdFileName[50];
+            // forchecking the past games
+            char holdIsIt1[50] = {'\0'};
+            char holdIsIt2[50] = {'\0'};
+            printf("which game do you want to continue?\n");
+            // Enter which game do you want to resume...
+            scanf("%s", holdFileName);
+            FILE *filePointer;
+            char globalPointName1[20];
+            globalPoint readFile1;
+            globalPoint readFile2;
+            globalPointName1[0] = '\0';
+            strcpy(globalPointName1, member1.name);
+            strcat(globalPointName1, "points.txt");
+            filePointer = fopen(globalPointName1, "r");
+            fread(&readFile1, sizeof(readFile1), 1, filePointer);
+            fclose(filePointer);
+
+            globalPointName1[0] = '\0';
+            strcpy(globalPointName1, member2.name);
+            strcat(globalPointName1, "points.txt");
+            filePointer = fopen(globalPointName1, "r");
+            fread(&readFile2, sizeof(readFile2), 1, filePointer);
+            fclose(filePointer);
+            // opening the save file
+            normalSave save;
+            filePointer = fopen(holdFileName, "r");
+            fread(&save, sizeof(save), 1, filePointer);
+            fclose(filePointer);
+            //////////////////
+            member1.points = readFile1.point;
+            member2.points = readFile2.point;
+            strcpy(holdIsIt1, member1.name);
+            strcat(holdIsIt1, member2.name);
+            strcpy(holdIsIt2, save.member1);
+            strcat(holdIsIt2, save.member2);
+            int startI;
+            // values for coding and decoding
+            char mainArrayCoding[64];
+            char arraySupport1Coding[64];
+            char arraySupport2Coding[64];
+            char mainArrayDecoding[64];
+            char arraySupport1Decoding[64];
+            char arraySupport2Decoding[64];
+
+            char arraySupport1[64];
+            char arraySupport2[64];
+            int pointSupporta1;
+            int pointSupporta2;
+            int pointSupportb1;
+            int pointSupportb2;
+            // firstvaluesSave(array);
+            int turnBackCountera = 2;
+            int turnBackCounterb = 2;
+            int index1 = 0;
+            int index2 = 0;
+            int counter = 0;
+            int x23;
+            int extraCounter = 0;
+            if (strcmp(holdIsIt1, holdIsIt2) == 0)
+            {
+
+                // decoding
+                startI = decodingNumber(save.turn) + 1;
+                member1.points = readFile1.point;
+                member2.points = readFile2.point;
+                decodingChar(save.array, mainArrayDecoding);
+                decodingChar(save.arraySupport1, arraySupport1Decoding);
+                decodingChar(save.arraySupport2, arraySupport2Decoding);
+                for (int i = 0; i < 64; i++)
+                {
+                    array[i].character = mainArrayDecoding[i];
+                }
+                firstvaluesSave(array);
+                for (int i = 0; i < 64; i++)
+                {
+                    arraySupport1[i] = arraySupport1Decoding[i];
+                }
+                printf("\n");
+                for (int i = 0; i < 64; i++)
+                {
+                    arraySupport2[i] = arraySupport2Decoding[i];
+                }
+                printf("\n");
+
+                pointSupporta1 = readFile1.point + decodingNumber(save.pointSupporta1) - member1.points;
+                pointSupporta2 = readFile2.point + decodingNumber(save.pointSupporta2) - member2.points;
+                pointSupportb1 = readFile1.point + decodingNumber(save.pointSupportb1) - member1.points;
+                pointSupportb2 = readFile2.point + decodingNumber(save.pointSupportb2) - member2.points;
+                printf("%d %d %d %d\n", pointSupporta1, pointSupporta2, pointSupportb1, pointSupportb2);
+                turnBackCountera = decodingNumber(save.turnBackCountera);
+                turnBackCounterb = decodingNumber(save.turnBackCounterb);
+                index1 = decodingNumber(save.index1);
+                index2 = decodingNumber(save.index2);
+                counter = decodingNumber(save.counter);
+                x23 = decodingNumber(save.x23);
+                extraCounter = decodingNumber(save.extraCounter);
+                printf("index 1 = %d , index 2 = %d\n", index1, index2);
+                for (int i = startI; i < 60 + extraCounter; i++)
+                {
+                    printarray(array);
+                    printf("i = %d\n", i);
+                    int t = 0;
+
+                    if ((i % 2) == 0)
+                    {
+                        for (int j = 0; j < 64; j++)
+                        {
+                            if (check(array, array[j].x, array[j].y) == 1)
+                            {
+                                t++;
+                            };
+                        }
+                        if (t == 0)
+                        {
+                            int sentinel1 = 0;
+                            printf("you can't move\n");
+                            extraCounter++;
+                            for (int j = 0; j < 64; j++)
+                            {
+                                if (checkb(array, array[j].x, array[j].y) == 1)
+                                {
+                                    sentinel1++;
+                                }
+                            }
+                            if (sentinel1 == 0)
+                            {
+                                break;
+                            }
+
+                            continue;
+                        }
+
+                        if (i >= 2)
+                        {
+                            if (counter == 1)
+                            {
+                                if (i > index1)
+                                {
+                                    int x = 0;
+                                    if (turnBackCountera > 0)
+                                    {
+                                        printf("%s do you want to go back?", member1.name);
+                                        scanf("%d", &x);
+                                        if (x == 1)
+                                        {
+                                            for (int i = 0; i < 64; i++)
+                                            {
+                                                array[i].character = arraySupport1[i];
+                                            }
+                                            member1.points = pointSupporta1;
+                                            member2.points = pointSupporta2;
+                                            i = index1 - 1;
+                                            turnBackCountera--;
+                                            counter = 0;
+                                            continue;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if (i >= 2)
+                        {
+                            if (counter == 1)
+                            {
+                                if (i > index2)
+                                {
+                                    int x = 0;
+                                    if (turnBackCounterb > 0)
+                                    {
+                                        printf("%s do you want to go back?", member2.name);
+                                        scanf("%d", &x);
+                                        if (x == 1)
+                                        {
+                                            for (int i = 0; i < 64; i++)
+                                            {
+                                                array[i].character = arraySupport2[i];
+                                            }
+                                            member1.points = pointSupportb1;
+                                            member2.points = pointSupportb2;
+                                            i = index2 - 1;
+                                            turnBackCounterb--;
+                                            counter = 0;
+                                            continue;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        for (int i = 0; i < 64; i++)
+                        {
+                            arraySupport1[i] = array[i].character;
+                        }
+                        if (counter == 0)
+                        {
+                            counter = 1;
+                        }
+
+                        pointSupporta1 = member1.points;
+                        pointSupporta2 = member2.points;
+                        index1 = i;
+                        if (getnum1(array) == 0)
+                        {
+                            i--;
+                            continue;
+                        };
+
+                        // printarray(array);
+                        // printf("%s point is :%d\n", member1.name, member1.points);
+                        // printf("%s point is :%d\n", member2.name, member2.points);
+                    }
+
+                    /*o turn*/
+
+                    if ((i % 2) == 1)
+                    {
+                        for (int j = 0; j < 64; j++)
+                        {
+                            if (checkb(array, array[j].x, array[j].y) == 1)
+                            {
+                                //         printf("%s you can choose x = %d y = %d block\n",member2.name,array[j].x, array[j].y);
+                                t++;
+                            };
+                        }
+                        if (t == 0)
+                        {
+                            int sentinel2 = 0;
+                            printf("you can't move\n");
+                            extraCounter++;
+                            for (int j = 0; j < 64; j++)
+                            {
+                                if (check(array, array[j].x, array[j].y) == 1)
+                                {
+                                    sentinel2++;
+                                }
+                            }
+                            if (sentinel2 == 0)
+                            {
+                                break;
+                            }
+
+                            continue;
+                        }
+                        if (i >= 2)
+                        {
+                            if (counter == 1)
+                            {
+                                if (i > index2)
+                                {
+
+                                    int x = 0;
+                                    if (turnBackCounterb > 0)
+                                    {
+                                        printf("%s do you want to go back?", member2.name);
+                                        scanf("%d", &x);
+
+                                        if (x == 1)
+                                        {
+                                            for (int i = 0; i < 64; i++)
+                                            {
+                                                array[i].character = arraySupport2[i];
+                                            }
+                                            member1.points = pointSupportb1;
+                                            member2.points = pointSupportb2;
+                                            // oISupport = i - 2;
+                                            i = index2 - 1;
+                                            turnBackCounterb--;
+                                            counter = 0;
+                                            continue;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if (i >= 3)
+                        {
+                            if (counter == 1)
+                            {
+                                if (i > index1)
+                                {
+
+                                    int x = 0;
+                                    if (turnBackCountera > 0)
+                                    {
+                                        printf("%s do you want to go back?", member1.name);
+                                        scanf("%d", &x);
+
+                                        if (x == 1)
+                                        {
+                                            for (int i = 0; i < 64; i++)
+                                            {
+                                                array[i].character = arraySupport1[i];
+                                            }
+                                            member1.points = pointSupporta1;
+                                            member2.points = pointSupporta2;
+                                            i = index1 - 1;
+                                            turnBackCountera--;
+                                            counter = 0;
+                                            continue;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        for (int i = 0; i < 64; i++)
+                        {
+                            arraySupport2[i] = array[i].character;
+                        }
+                        pointSupportb1 = member1.points;
+                        pointSupportb2 = member2.points;
+                        index2 = i;
+                        if (counter == 0)
+                        {
+                            counter = 1;
+                        }
+
+                        if (getnum2(array) == 0)
+                        {
+                            i--;
+                            continue;
+                        };
+                    }
+                    printf("do you want to save and quit?(yes = 1, no = 0)\n");
+                    int quit;
+                    scanf("%d", &quit);
+                    if (quit == 1)
+                    {
+
+                        printf("%s\n", holdFileName);
+
+                        normalSave save;
+                        char mainArrayCharacter[64];
+                        for (int i = 0; i < 64; i++)
+                        {
+                            mainArrayCharacter[i] = array[i].character;
+                        }
+                        codingChar(mainArrayCharacter, mainArrayCoding);
+                        codingChar(arraySupport1, arraySupport1Coding);
+                        codingChar(arraySupport2, arraySupport2Coding);
+
+                        for (int i = 0; i < 64; i++)
+                        {
+                            save.array[i] = mainArrayCoding[i];
+                        }
+                        strcpy(save.member1, (member1.name));
+                        strcpy(save.member2, (member2.name));
+                        save.turn = codingNumber(i);
+                        save.point1 = codingNumber(member1.points);
+                        save.point2 = codingNumber(member2.points);
+                        for (int i = 0; i < 64; i++)
+                        {
+                            save.arraySupport1[i] = arraySupport1Coding[i];
+                        }
+                        for (int i = 0; i < 64; i++)
+                        {
+                            save.arraySupport2[i] = arraySupport2Coding[i];
+                        }
+                        save.pointSupporta1 = codingNumber(pointSupporta1);
+                        save.pointSupporta2 = codingNumber(pointSupporta2);
+                        save.pointSupportb1 = codingNumber(pointSupportb1);
+                        save.pointSupportb2 = codingNumber(pointSupportb2);
+                        save.turnBackCountera = codingNumber(turnBackCountera);
+                        save.turnBackCounterb = codingNumber(turnBackCounterb);
+                        save.index1 = codingNumber(index1);
+                        save.index2 = codingNumber(index2);
+                        save.counter = codingNumber(counter);
+                        save.x23 = codingNumber(x23);
+                        save.extraCounter = codingNumber(extraCounter);
+                        globalPoint readFile;
+
+                        // saving global points
+                        globalPointMember1.point = member1.points;
+                        strcpy(globalPointMember1.name, member1.name);
+                        globalPointMember2.point = member2.points;
+                        strcpy(globalPointMember2.name, member2.name);
+                        char globalPointName1[20];
+
+                        globalPointName1[0] = '\0';
+                        strcpy(globalPointName1, member1.name);
+                        strcat(globalPointName1, "points.txt");
+
+                        filePointer = fopen(globalPointName1, "w");
+                        fwrite(&globalPointMember1, sizeof(globalPointMember1), 1, filePointer);
+                        fclose(filePointer);
+
+                        globalPointName1[0] = '\0';
+                        strcpy(globalPointName1, member2.name);
+                        strcat(globalPointName1, "points.txt");
+
+                        filePointer = fopen(globalPointName1, "w");
+                        fwrite(&globalPointMember2, sizeof(globalPointMember2), 1, filePointer);
+                        fclose(filePointer);
+
+                        filePointer = fopen(holdFileName, "w");
+                        fwrite(&save, sizeof(save), 1, filePointer);
+                        fclose(filePointer);
+                    }
+                }
+
+                if (chooseWinner(array) == 1)
+                {
+                    printf("%s won the game", member1.name);
+                }
+                if (chooseWinner(array) == 2)
+                {
+                    printf("%s won the game", member2.name);
+                }
+            }
+            delay(30);
+        }
+        if (t == 5)
+        {
+            printf("Bye");
+            break;
         }
     }
-
     return 0;
 }
