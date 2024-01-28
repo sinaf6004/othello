@@ -30,50 +30,54 @@ int t = 1;
 while (keyboard !=13)
 {
     system("cls");
-    arrowplace(1, position);
+
     if (position==1)
     {
-    printf("\x1b[34mprevious game\n");
+    arrowplace(1, position);
+    printf("\x1b[34mResume previuos games\n");
     printf("\x1b[0m");
     t =1;
     }
     else
     {
-    printf("previous game\n");
+    printf("Resume previuos games\n");
     }
 
-    arrowplace(2, position);
+
     if (position==2)
     {
-    printf("\x1b[34mresume the game\n");
+    arrowplace(2, position);
+    printf("\x1b[34mStart a new game in normal mode\n");
     printf("\x1b[0m");
     t =2;
     }
     else
     {
-    printf("resume the game\n");
+    printf("Start a new game in normal mode\n");
     }
-    arrowplace(3, position);
+
     if (position==3)
     {
-    printf("\x1b[34mtimer mode\n");
+    arrowplace(3, position);
+    printf("\x1b[34mStart a new game in time mode\n");
     printf("\x1b[0m");
     t = 3;
     }
     else
     {
-    printf("timer mode\n");
+    printf("Start a new game in time mode\n");
     }
-    arrowplace(4, position);
+    
     if (position==4)
     {
-    printf("\x1b[34mexit\n");
+    arrowplace(4, position);
+    printf("\x1b[34mExit\n");
     printf("\x1b[0m");
     t = 4;
     }
     else
     {
-    printf("exit\n");
+    printf("Exit\n");
     }
 
 
@@ -87,7 +91,7 @@ while (keyboard !=13)
     {
         position --;
     }
-    
+
 }
 return t;
 }

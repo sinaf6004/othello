@@ -39,6 +39,7 @@ int prointPreviousGames(char member1[], char member2[])
     int i = 5;
     if (strcmp(hold1, hold2) == 0)
     {
+        printf("\e[1;37myour previous games:\n");
         printf("%s\n", firstFile);
         while (i > 0)
         {
@@ -79,8 +80,8 @@ int prointPreviousGames(char member1[], char member2[])
     {
         printf("There is no previous game to show");
     }
-
-    return 0;
+    printf("\x1b[0m");
+    return n-1;
 }
 
 
