@@ -1401,7 +1401,6 @@ int getnum1(partition array[])
     do
     {
         scanf("%d%d", &x, &y);
-        printf("%d and %d\n", x, y);
         if ((x > 0) && (x <= 8) && (y <= 8) && (y > 0))
         {
             break;
@@ -1651,7 +1650,6 @@ int main()
                 pointSupporta2 = readFile2.point + decodingNumber(save.pointSupporta2) - member2.points;
                 pointSupportb1 = readFile1.point + decodingNumber(save.pointSupportb1) - member1.points;
                 pointSupportb2 = readFile2.point + decodingNumber(save.pointSupportb2) - member2.points;
-                printf("%d %d %d %d\n", pointSupporta1, pointSupporta2, pointSupportb1, pointSupportb2);
                 turnBackCountera = decodingNumber(save.turnBackCountera);
                 turnBackCounterb = decodingNumber(save.turnBackCounterb);
                 index1 = decodingNumber(save.index1);
@@ -1697,7 +1695,7 @@ int main()
                     }
 
                     printarray(array);
-                    printf("i = %d\n", i);
+                    printf("turn = %d\n", i + 1);
                     start = clock();
                     int t = 0;
                     if ((i % 2) == 0)
@@ -1713,7 +1711,7 @@ int main()
                         if (t == 0)
                         {
                             int sentinel1 = 0;
-                            printf("you can't move \n");
+                            printf("%syou can't move \n", member1.name);
                             extraCounter++;
                             for (int j = 0; j < 64; j++)
                             {
@@ -1803,6 +1801,15 @@ int main()
                                 }
                             }
                         }
+                        int index1getnum0 = index1;
+                        char arraySupport1getnum0[64];
+                        for (int i = 0; i < 64; i++)
+                        {
+                            arraySupport1getnum0[i] = arraySupport1[i];
+                        }
+                        int pointSupporta1getnum0 = pointSupporta1;
+                        int pointSupporta2getnum0 = pointSupporta2;
+
                         for (int i = 0; i < 64; i++)
                         {
                             arraySupport1[i] = array[i].character;
@@ -1821,30 +1828,35 @@ int main()
                             end = clock();
                             int reduce = (end - start) / CLOCKS_PER_SEC;
                             time1 -= reduce;
-                            printf("time 1 = %d\n", time1);
                             i--;
+                            index1 = index1getnum0;
+                            pointSupporta1 = pointSupporta1getnum0;
+                            pointSupporta2 = pointSupporta2getnum0;
+                            for (int i = 0; i < 64; i++)
+                            {
+                                arraySupport1[i] = arraySupport1getnum0[i];
+                            }
                             continue;
                         };
                         end = clock();
                         int reduce = (end - start) / CLOCKS_PER_SEC;
                         time1 -= reduce;
-                        printf("player one reduce = %d\n");
                         if (extraTime1Countersu == 1)
                         {
-                            printf("%d added to time2", reduce);
+                            // printf("%d added to time2", reduce);
                             time2 += reduce;
                             extraTime1Countersu = 0;
                         }
                         if (extraTime2Countersu == 1)
                         {
-                            printf("%d added to time1\n", reduce);
+                            // printf("%d added to time1\n", reduce);
                             time1 += reduce;
                             extraTime2Countersu = 0;
                         }
 
                         if (time1 < 0)
                         {
-                            printf("player one you lost the time\nplayer 2 won the game");
+                            printf("%s you lost the time\n%s won the game\n", member1.name, member2.name);
                             break;
                         }
                     }
@@ -1858,7 +1870,6 @@ int main()
                                 t++;
                             };
                         }
-                        printf("t = %d\n");
                         if (t == 0)
                         {
                             int sentinel2 = 0;
@@ -1956,6 +1967,14 @@ int main()
                                 }
                             }
                         }
+                        int index2getnum0 = index2;
+                        char arraySupport2getnum0[64];
+                        for (int i = 0; i < 64; i++)
+                        {
+                            arraySupport2getnum0[i] = arraySupport2[i];
+                        }
+                        int pointSupportb1getnum0 = pointSupportb1;
+                        int pointSupportb2getnum0 = pointSupportb2;
                         for (int i = 0; i < 64; i++)
                         {
                             arraySupport2[i] = array[i].character;
@@ -1971,28 +1990,33 @@ int main()
                         if (getnum2(array) == 0)
                         {
                             i--;
+                            index2 = index2getnum0;
+                            pointSupportb1 = pointSupportb1getnum0;
+                            pointSupportb2 = pointSupportb2getnum0;
+                            for (int i = 0; i < 64; i++)
+                            {
+                                arraySupport2[i] = arraySupport2getnum0[i];
+                            }
+
                             continue;
                         };
                         end = clock();
                         int reduce = (end - start) / CLOCKS_PER_SEC;
                         time2 -= reduce;
-                        printf("player two reduce = %d\n");
                         if (extraTime1Countersu == 1)
                         {
-                            printf("%d added to time2", reduce);
                             time2 += reduce;
                             extraTime1Countersu = 0;
                         }
                         if (extraTime2Countersu == 1)
                         {
-                            printf("%d added to time1", reduce);
                             time1 += reduce;
                             extraTime2Countersu = 0;
                         }
 
                         if (time2 < 0)
                         {
-                            printf("player two you lost the time\nplayer 1 won thegame");
+                            printf("%s you lost the time\n%s won the game", member2.name, member1.name);
                             member1.points = 0;
                             break;
                         }
@@ -2006,12 +2030,12 @@ int main()
                     scanf("%d", &saveCheck);
                     if (saveCheck == 1)
                     {
-                        for (int i = 0; i < 64; i++)
-                        {
-                            printf("%c", arraySupport2[i]);
-                        }
-                        printf("\n");
-                        printf("%s\n", holdFileName);
+                        // for (int i = 0; i < 64; i++)
+                        // {
+                        //     printf("%c", arraySupport2[i]);
+                        // }
+                        // printf("\n");
+                        // printf("%s\n", holdFileName);
                         char mainArrayCharacter[64];
                         for (int i = 0; i < 64; i++)
                         {
@@ -2039,9 +2063,7 @@ int main()
                         for (int i = 0; i < 64; i++)
                         {
                             save.arraySupport2[i] = arraySupport2Coding[i];
-                            printf("%c", arraySupport2[i]);
                         }
-                        printf("\n");
                         save.pointSupporta1 = codingNumber(pointSupporta1);
                         save.pointSupporta2 = codingNumber(pointSupporta2);
                         save.pointSupportb1 = codingNumber(pointSupportb1);
@@ -2086,8 +2108,31 @@ int main()
                         fwrite(&save, sizeof(save), 1, filePointer);
                         fclose(filePointer);
                     }
-                    printf("time 1 = %d and time 2 = %d\n", time1, time2);
                 }
+                globalPoint readFile;
+
+                // saving global points
+                globalPointMember1.point = member1.points;
+                strcpy(globalPointMember1.name, member1.name);
+                globalPointMember2.point = member2.points;
+                strcpy(globalPointMember2.name, member2.name);
+                char globalPointName1[20];
+
+                globalPointName1[0] = '\0';
+                strcpy(globalPointName1, member1.name);
+                strcat(globalPointName1, "points.txt");
+
+                filePointer = fopen(globalPointName1, "w");
+                fwrite(&globalPointMember1, sizeof(globalPointMember1), 1, filePointer);
+                fclose(filePointer);
+
+                globalPointName1[0] = '\0';
+                strcpy(globalPointName1, member2.name);
+                strcat(globalPointName1, "points.txt");
+
+                filePointer = fopen(globalPointName1, "w");
+                fwrite(&globalPointMember2, sizeof(globalPointMember2), 1, filePointer);
+                fclose(filePointer);
                 if (chooseWinner(array) == 1)
                 {
                     printf("%s won the game", member1.name);
@@ -2096,7 +2141,6 @@ int main()
                 {
                     printf("%s won the game", member2.name);
                 }
-                
             }
             delay(30);
         }
@@ -2164,7 +2208,7 @@ int main()
             for (int i = 0; i < (60 + extraCounter); i++)
             {
                 printarray(array);
-                printf("i = %d\n", i);
+                printf("turn = %d\n", i + 1);
                 int t = 0;
 
                 if ((i % 2) == 0)
@@ -2252,6 +2296,14 @@ int main()
                             }
                         }
                     }
+                    int index1getnum0 = index1;
+                    char arraySupport1getnum0[64];
+                    for (int i = 0; i < 64; i++)
+                    {
+                        arraySupport1getnum0[i] = arraySupport1[i];
+                    }
+                    int pointSupporta1getnum0 = pointSupporta1;
+                    int pointSupporta2getnum0 = pointSupporta2;
 
                     for (int i = 0; i < 64; i++)
                     {
@@ -2268,6 +2320,13 @@ int main()
                     if (getnum1(array) == 0)
                     {
                         i--;
+                        index1 = index1getnum0;
+                        pointSupporta1 = pointSupporta1getnum0;
+                        pointSupporta2 = pointSupporta2getnum0;
+                        for (int i = 0; i < 64; i++)
+                        {
+                            arraySupport1[i] = arraySupport1getnum0[i];
+                        }
                         continue;
                     };
 
@@ -2368,13 +2427,23 @@ int main()
                             }
                         }
                     }
+                    int index2getnum0 = index2;
+                    char arraySupport2getnum0[64];
+                    for (int i = 0; i < 64; i++)
+                    {
+                        arraySupport2getnum0[i] = arraySupport2[i];
+                    }
+                    int pointSupportb1getnum0 = pointSupportb1;
+                    int pointSupportb2getnum0 = pointSupportb2;
+
+                    index2 = i;
                     for (int i = 0; i < 64; i++)
                     {
                         arraySupport2[i] = array[i].character;
                     }
                     pointSupportb1 = member1.points;
                     pointSupportb2 = member2.points;
-                    index2 = i;
+
                     if (counter == 0)
                     {
                         counter = 1;
@@ -2383,8 +2452,16 @@ int main()
                     if (getnum2(array) == 0)
                     {
                         i--;
+                        index2 = index2getnum0;
+                        pointSupportb1 = pointSupportb1getnum0;
+                        pointSupportb2 = pointSupportb2getnum0;
+                        for (int i = 0; i < 64; i++)
+                        {
+                            arraySupport2[i] = arraySupport2getnum0[i];
+                        }
+
                         continue;
-                    };
+                    }
                 }
                 printf("do you want to save and quit?(yes = 1, no = 0)\n");
                 int quit;
@@ -2450,7 +2527,6 @@ int main()
                     strcpy(globalPointMember1.name, member1.name);
                     globalPointMember2.point = member2.points;
                     strcpy(globalPointMember2.name, member2.name);
-                    char globalPointName1[20];
 
                     globalPointName1[0] = '\0';
                     strcpy(globalPointName1, member1.name);
@@ -2473,7 +2549,28 @@ int main()
                     fclose(filePointer);
                 }
             }
+            globalPoint readFile;
 
+            // saving global points
+            globalPointMember1.point = member1.points;
+            strcpy(globalPointMember1.name, member1.name);
+            globalPointMember2.point = member2.points;
+            strcpy(globalPointMember2.name, member2.name);
+            globalPointName1[0] = '\0';
+            strcpy(globalPointName1, member1.name);
+            strcat(globalPointName1, "points.txt");
+
+            filePointer = fopen(globalPointName1, "w");
+            fwrite(&globalPointMember1, sizeof(globalPointMember1), 1, filePointer);
+            fclose(filePointer);
+
+            globalPointName1[0] = '\0';
+            strcpy(globalPointName1, member2.name);
+            strcat(globalPointName1, "points.txt");
+
+            filePointer = fopen(globalPointName1, "w");
+            fwrite(&globalPointMember2, sizeof(globalPointMember2), 1, filePointer);
+            fclose(filePointer);
             if (chooseWinner(array) == 1)
             {
                 printf("%s won the game", member1.name);
@@ -2613,7 +2710,7 @@ int main()
                 }
 
                 printarray(array);
-                printf("i = %d\n", i);
+                printf("turn = %d\n", i + 1);
                 start = clock();
                 int t = 0;
                 if ((i % 2) == 0)
@@ -2629,7 +2726,7 @@ int main()
                     if (t == 0)
                     {
                         int sentinel1 = 0;
-                        printf("you can't move ff\n");
+                        printf("you can't move \n");
                         extraCounter++;
                         for (int j = 0; j < 64; j++)
                         {
@@ -2719,6 +2816,15 @@ int main()
                             }
                         }
                     }
+                    int index1getnum0 = index1;
+                    char arraySupport1getnum0[64];
+                    for (int i = 0; i < 64; i++)
+                    {
+                        arraySupport1getnum0[i] = arraySupport1[i];
+                    }
+                    int pointSupporta1getnum0 = pointSupporta1;
+                    int pointSupporta2getnum0 = pointSupporta2;
+
                     for (int i = 0; i < 64; i++)
                     {
                         arraySupport1[i] = array[i].character;
@@ -2737,30 +2843,37 @@ int main()
                         end = clock();
                         int reduce = (end - start) / CLOCKS_PER_SEC;
                         time1 -= reduce;
-                        printf("time 1 = %d\n", time1);
                         i--;
+                        index1 = index1getnum0;
+                        pointSupporta1 = pointSupporta1getnum0;
+                        pointSupporta2 = pointSupporta2getnum0;
+                        for (int i = 0; i < 64; i++)
+                        {
+                            arraySupport1[i] = arraySupport1getnum0[i];
+                        }
+
                         continue;
                     };
                     end = clock();
                     int reduce = (end - start) / CLOCKS_PER_SEC;
                     time1 -= reduce;
-                    printf("player one reduce = %d\n");
+                    // printf("player one reduce = %d\n");
                     if (extraTime1Countersu == 1)
                     {
-                        printf("%d added to time2", reduce);
+                        // printf("%d added to time2", reduce);
                         time2 += reduce;
                         extraTime1Countersu = 0;
                     }
                     if (extraTime2Countersu == 1)
                     {
-                        printf("%d added to time1\n", reduce);
+                        // printf("%d added to time1\n", reduce);
                         time1 += reduce;
                         extraTime2Countersu = 0;
                     }
 
                     if (time1 < 0)
                     {
-                        printf("player one you lost the time\nplayer 2 won the game");
+                        printf("%s you lost the time\n%s won the game", member1.name, member2.name);
                         break;
                     }
                 }
@@ -2774,7 +2887,6 @@ int main()
                             t++;
                         };
                     }
-                    printf("t = %d\n");
                     if (t == 0)
                     {
                         int sentinel2 = 0;
@@ -2872,6 +2984,15 @@ int main()
                             }
                         }
                     }
+                    int index2getnum0 = index2;
+                    char arraySupport2getnum0[64];
+                    for (int i = 0; i < 64; i++)
+                    {
+                        arraySupport2getnum0[i] = arraySupport2[i];
+                    }
+                    int pointSupportb1getnum0 = pointSupportb1;
+                    int pointSupportb2getnum0 = pointSupportb2;
+
                     for (int i = 0; i < 64; i++)
                     {
                         arraySupport2[i] = array[i].character;
@@ -2887,28 +3008,33 @@ int main()
                     if (getnum2(array) == 0)
                     {
                         i--;
+                        index2 = index2getnum0;
+                        pointSupportb1 = pointSupportb1getnum0;
+                        pointSupportb2 = pointSupportb2getnum0;
+                        for (int i = 0; i < 64; i++)
+                        {
+                            arraySupport2[i] = arraySupport2getnum0[i];
+                        }
+
                         continue;
                     };
                     end = clock();
                     int reduce = (end - start) / CLOCKS_PER_SEC;
                     time2 -= reduce;
-                    printf("player two reduce = %d\n");
                     if (extraTime1Countersu == 1)
                     {
-                        printf("%d added to time2", reduce);
                         time2 += reduce;
                         extraTime1Countersu = 0;
                     }
                     if (extraTime2Countersu == 1)
                     {
-                        printf("%d added to time1", reduce);
                         time1 += reduce;
                         extraTime2Countersu = 0;
                     }
 
                     if (time2 < 0)
                     {
-                        printf("player two you lost the time\nplayer 1 won thegame");
+                        printf("%s you lost the time\n%s won the game", member2.name, member1.name);
                         break;
                     }
                 }
@@ -2930,8 +3056,6 @@ int main()
                         strcat(holdFileName, holdFIleNameNumber);
                     }
                     strcat(holdFileName, ".txt");
-                    printf("%s\n", holdFileName);
-
                     char mainArrayCharacter[64];
                     for (int i = 0; i < 64; i++)
                     {
@@ -3008,8 +3132,29 @@ int main()
                     fwrite(&save, sizeof(save), 1, filePointer);
                     fclose(filePointer);
                 }
-                printf("time 1 = %d and time 2 = %d\n", time1, time2);
             }
+            globalPoint readFile;
+
+            // saving global points
+            globalPointMember1.point = member1.points;
+            strcpy(globalPointMember1.name, member1.name);
+            globalPointMember2.point = member2.points;
+            strcpy(globalPointMember2.name, member2.name);
+            globalPointName1[0] = '\0';
+            strcpy(globalPointName1, member1.name);
+            strcat(globalPointName1, "points.txt");
+
+            filePointer = fopen(globalPointName1, "w");
+            fwrite(&globalPointMember1, sizeof(globalPointMember1), 1, filePointer);
+            fclose(filePointer);
+
+            globalPointName1[0] = '\0';
+            strcpy(globalPointName1, member2.name);
+            strcat(globalPointName1, "points.txt");
+
+            filePointer = fopen(globalPointName1, "w");
+            fwrite(&globalPointMember2, sizeof(globalPointMember2), 1, filePointer);
+            fclose(filePointer);
             if (chooseWinner(array) == 1)
             {
                 printf("%s won the game", member1.name);
@@ -3117,7 +3262,6 @@ int main()
                 pointSupporta2 = readFile2.point + decodingNumber(save.pointSupporta2) - member2.points;
                 pointSupportb1 = readFile1.point + decodingNumber(save.pointSupportb1) - member1.points;
                 pointSupportb2 = readFile2.point + decodingNumber(save.pointSupportb2) - member2.points;
-                printf("%d %d %d %d\n", pointSupporta1, pointSupporta2, pointSupportb1, pointSupportb2);
                 turnBackCountera = decodingNumber(save.turnBackCountera);
                 turnBackCounterb = decodingNumber(save.turnBackCounterb);
                 index1 = decodingNumber(save.index1);
@@ -3125,11 +3269,10 @@ int main()
                 counter = decodingNumber(save.counter);
                 x23 = decodingNumber(save.x23);
                 extraCounter = decodingNumber(save.extraCounter);
-                printf("index 1 = %d , index 2 = %d\n", index1, index2);
                 for (int i = startI; i < 60 + extraCounter; i++)
                 {
                     printarray(array);
-                    printf("i = %d\n", i);
+                    printf("turn = %d\n", i + 1);
                     int t = 0;
 
                     if ((i % 2) == 0)
@@ -3217,6 +3360,14 @@ int main()
                                 }
                             }
                         }
+                        int index1getnum0 = index1;
+                        char arraySupport1getnum0[64];
+                        for (int i = 0; i < 64; i++)
+                        {
+                            arraySupport1getnum0[i] = arraySupport1[i];
+                        }
+                        int pointSupporta1getnum0 = pointSupporta1;
+                        int pointSupporta2getnum0 = pointSupporta2;
 
                         for (int i = 0; i < 64; i++)
                         {
@@ -3233,6 +3384,14 @@ int main()
                         if (getnum1(array) == 0)
                         {
                             i--;
+                            index1 = index1getnum0;
+                            pointSupporta1 = pointSupporta1getnum0;
+                            pointSupporta2 = pointSupporta2getnum0;
+                            for (int i = 0; i < 64; i++)
+                            {
+                                arraySupport1[i] = arraySupport1getnum0[i];
+                            }
+
                             continue;
                         };
 
@@ -3333,6 +3492,15 @@ int main()
                                 }
                             }
                         }
+                        int index2getnum0 = index2;
+                        char arraySupport2getnum0[64];
+                        for (int i = 0; i < 64; i++)
+                        {
+                            arraySupport2getnum0[i] = arraySupport2[i];
+                        }
+                        int pointSupportb1getnum0 = pointSupportb1;
+                        int pointSupportb2getnum0 = pointSupportb2;
+
                         for (int i = 0; i < 64; i++)
                         {
                             arraySupport2[i] = array[i].character;
@@ -3348,6 +3516,14 @@ int main()
                         if (getnum2(array) == 0)
                         {
                             i--;
+                            index2 = index2getnum0;
+                            pointSupportb1 = pointSupportb1getnum0;
+                            pointSupportb2 = pointSupportb2getnum0;
+                            for (int i = 0; i < 64; i++)
+                            {
+                                arraySupport2[i] = arraySupport2getnum0[i];
+                            }
+
                             continue;
                         };
                     }
@@ -3356,8 +3532,6 @@ int main()
                     scanf("%d", &quit);
                     if (quit == 1)
                     {
-
-                        printf("%s\n", holdFileName);
 
                         normalSave save;
                         char mainArrayCharacter[64];
@@ -3427,6 +3601,30 @@ int main()
                         fclose(filePointer);
                     }
                 }
+                globalPoint readFile;
+
+                // saving global points
+                globalPointMember1.point = member1.points;
+                strcpy(globalPointMember1.name, member1.name);
+                globalPointMember2.point = member2.points;
+                strcpy(globalPointMember2.name, member2.name);
+                char globalPointName1[20];
+
+                globalPointName1[0] = '\0';
+                strcpy(globalPointName1, member1.name);
+                strcat(globalPointName1, "points.txt");
+
+                filePointer = fopen(globalPointName1, "w");
+                fwrite(&globalPointMember1, sizeof(globalPointMember1), 1, filePointer);
+                fclose(filePointer);
+
+                globalPointName1[0] = '\0';
+                strcpy(globalPointName1, member2.name);
+                strcat(globalPointName1, "points.txt");
+
+                filePointer = fopen(globalPointName1, "w");
+                fwrite(&globalPointMember2, sizeof(globalPointMember2), 1, filePointer);
+                fclose(filePointer);
 
                 if (chooseWinner(array) == 1)
                 {
